@@ -1,13 +1,14 @@
-import React from 'react';
-import './App.css';
+import Header from './components/Header';
 import RoutesApp from './routes';
+
 
 function App() {
   return (
     <>
-      <RoutesApp />
+    <Header />
+    <RoutesApp />
     </>
-  );
+  )
 }
 
 export default App;

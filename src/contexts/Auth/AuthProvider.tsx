@@ -10,7 +10,8 @@ export const AuthProvider = ({children}: {children:JSX.Element}) => {
     
     const signin = async (email: string, password: string) => {
         const data = await api.signin(email,password);
-        if(data.user && data.token) {
+        
+        if(data.user && data.acess_token) {
             setUser(data.user);
             return true;
         }

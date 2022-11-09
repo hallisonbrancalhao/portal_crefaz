@@ -10,46 +10,25 @@
   --color-azul-claro-2: #AEAEAE;
 }
 
-.placeholder {
-  color: var(--color-azul-claro-2);
-  border-radius: 20px;
-  border: 1px solid var(--color-azul-claro-2);
-}
-
 .btn {
-  border-radius: 20px;
-  color: white;
-  background-color: var(--color-laranja-1);
+  color: white !important;
 }
 
 .btn:hover {
   background-color: var(--color-laranja-3);
+  transition-duration: 5ms;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0s;
+  transition-property: all;
+}
+
+.transition button {
+  transition: opacity 170ms ease-in-out,background-color 350ms ease-in-out,color 350ms ease-in-out;
+}
+.transition button:hover {
+  transition: opacity 170ms ease-in-out,background-color 350ms ease-in-out,color 350ms ease-in-out;
 }
 
 body{
   font-family: var(--regular);
-}
-
-h1 {
-  font-size: 40px;
-}
-
-h2 {
-  font-size: 32px;
-}
-
-h3 {
-  font-size: 28px;
-}
-
-h4 {
-  font-size: 18px;
-}
-
-h5 {
-  font-size: 14px;
-}
-
-h5 {
-  font-size: 12px;
 }

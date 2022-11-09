@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes as Router } from "react-router-dom";
 import { 
   Badge, 
   ForgetPassword,
@@ -9,14 +9,12 @@ import {
   Login 
 } from "../pages";
 
-import React from 'react'
 import { RequireAuth } from "../contexts/Auth/RequireAuth";
 
 const RoutesApp = () => {
   return (
-    <BrowserRouter>
       <Fragment>
-        <Routes>
+        <Router>
           <Route  path="/apresentacao" element={<RequireAuth><ScreenVideo /></RequireAuth>} />
           <Route  path="/perfil" element={<RequireAuth><Profile /></RequireAuth>} />
           <Route  path="/cracha" element={<RequireAuth><Badge /></RequireAuth>} />
@@ -24,9 +22,8 @@ const RoutesApp = () => {
           <Route  path="/resetar-senha" element={<ResetPassword />} />
           <Route path="*" element={<Login />} />
           <Route path="/" element={<Login />} />
-        </Routes>
+        </Router>
       </Fragment>
-    </BrowserRouter>
   );
 }
 
