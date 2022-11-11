@@ -9,12 +9,12 @@ const Login = () => {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [login, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [login, setEmail] = useState('10037816918');
+  const [password, setPassword] = useState('123456');
 
   const handleLogin = async () => {
     if (login && password) {
-  
+
       const isLogged = await auth.signin(login, password);
 
       if (isLogged) {

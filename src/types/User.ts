@@ -4,4 +4,5 @@ export type User = {
     email: string;
     cpf: string;
     password?: string;
+    bearer: string
 }
