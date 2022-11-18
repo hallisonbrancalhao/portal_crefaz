@@ -1,27 +1,49 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/Auth/AuthContext';
 import "../index.css";
 import { ReactComponent as IconMenu } from '../../icons/seta-direita.svg'
 
 const Login = () => {
-
-  const auth = useContext(AuthContext);
   const navigate = useNavigate();
+  const authAlready = useContext(AuthContext);
+
+  useEffect(() => {
+    if (authAlready.user != null) {
+      navigate('/apresentacao');
+    }
+  }, [])
+
+  const [errorMessage, serErrorMessage] = useState('');
+  const auth = useContext(AuthContext);
 
   const [login, setEmail] = useState('10037816918');
   const [password, setPassword] = useState('123456');
 
+  const errorLogin = document.querySelector('.login');
+  const errorPassword = document.querySelector('.password');
+
+  if (errorMessage) {
+    errorLogin?.classList.add('errorLabel')
+    errorPassword?.classList.add('errorLabel')
+  } else if (errorLogin?.classList.contains('errorLabel')) {
+    errorLogin?.classList.remove('errorLabel');
+    errorPassword?.classList.remove('errorLabel');
+  }
+
   const handleLogin = async () => {
     if (login && password) {
 
-      const isLogged = await auth.signin(login, password);
+      try {
+        const isLogged = await auth.signin(login, password);
 
-      if (isLogged) {
-        navigate('/apresentacao');
-      } else {
-        alert("Falha ao realizar login");
+        if (isLogged) {
+          navigate('/apresentacao');
+        }
+      } catch (error) {
+        serErrorMessage(`Falha ao realizar login, erro: ${error}`);
       }
+
     }
   }
 
@@ -34,21 +56,22 @@ const Login = () => {
             <div className="w-100">
               <input
                 type="text"
-                className='form-control mt-5'
+                className='form-control login mt-5'
                 value={login}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="Login CPF"
               />
               <input
                 type="password"
-                className='form-control pt-3 mt-4'
+                className='form-control password pt-3 mt-4'
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="Senha"
               />
             </div>
+            <p className="errorMessage">{errorMessage}</p>
             <h5 className="links mt-4" onClick={() => { navigate('/esqueceu-sua-senha') }}>Esqueceu a senha?</h5>
-            <button className='btn btn-secondary mt-4' onClick={handleLogin}>
+            <button className='px-5 py-2 btn btn-secondary mt-4' onClick={handleLogin}>
               <span>Acessar</span>
               <IconMenu width="0.6rem" />
             </button>

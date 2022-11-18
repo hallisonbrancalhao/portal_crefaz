@@ -1,0 +1,51 @@
+.label-input {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--color-azul-2);
+}
+
+.cracha-card {
+    text-align: center;
+    align-items: center;
+    background-color: var(--color-azul);
+    border-radius: 15px;
+}
+
+.cracha-card_imagem__div {
+    border-radius: 10px;
+    background-color: white;
+}
+
+.cracha-card_nome {
+    min-height: 85px;
+    font-weight: 300;
+    color: white;
+    margin-top: 1rem;
+}
+
+hr.solid {
+    border-top: 2px solid #fff;
+}
+
+.cracha-video {
+    border-radius: 20px 20px 0 0;
+}
+
+.cracha-subtitle {
+    font-size: 24px;
+    padding: 1rem .5rem;
+    color: var(--color-azul);
+}
+
+.cracha-subtitle_form {
+    color: var(--color-azul-2);
+}
+
+.cracha-card_logo {
+    width: 90%;
+    filter: brightness(5);
+}
+
+button>span {
+    margin-right: .6rem;
+}

@@ -1,8 +1,15 @@
-# Getting Started with Create React App
-
+# **Portal EuSouCrefaz** :bank:
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## About
+
+Site Crefaz is a bespoke blog/news/institutional framework built on some of the most popular open source technologies such as Codeigniter and Bootstrap.
+
+Libraries and Frameworks:
+
+- [ReactJS](https://reactjs.org/) A JavaScript library for building user interfaces.
+- [REST API](https://www.redhat.com/en/topics/api/what-is-a-rest-api) is an application programming interface that conforms to the constraints of REST architectural style and allows for interaction with RESTful web services.
+- [JWT](https://jwt.io/) JSON Web Tokens are an open, industry standard RFC 7519 method for representing claims securely between two parties.
 
 In the project directory, you can run:
 
@@ -14,33 +21,57 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Requirements
 
-### `npm run build`
+- Node 18.12
+- MySQL (undefined)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Configuration
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Create the **.env** file:
+```shell
+cp env .env
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Open the **.env** file and configure the variables
 
-### `npm run eject`
+```
+REACT_APP_URL_API=link_api
+REACT_APP_ADMIN_EMAIL=admin_email
+REACT_APP_ADMIN_PASSWORD=admin_password
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Install packages
+```shell
+npm install
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### Scrum
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Scrum is a lightweight framework that helps people, teams and organizations generate value through adaptive solutions for complex problems\
+[https://www.scrum.org/](https://www.scrum.org/)
 
-## Learn More
+#### FeatureBranch Workflow
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Feat is a branching model for Git\
+[https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow#:~:text=Git%20Feature%20Branch%20Workflow%20is%20branching%20model%20focused%2C%20meaning%20that,be%20incorporated%20into%20other%20workflows.](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow#:~:text=Git%20Feature%20Branch%20Workflow%20is%20branching%20model%20focused%2C%20meaning%20that,be%20incorporated%20into%20other%20workflows.)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Commit Pattern
+
+In general the pattern mostly looks like this:
+
+`type(scope?): subject  #scope is optional; multiple scopes are supported (current delimiter options: "/", "\" and ",")`
+> The scope should be the git issue id
+
+## :man_technologist:Software team  :rocket::large_blue_circle:
+
+- Antônio Vieira - Project manager ([antonio.vieira@crefaz.com.br](mailto:antonio.vieira@crefaz.com.br))
+- Júlio Rossato - Team Leader ([contato@julirossato.com.br](mailto:contato@julirossato.com.br))
+
+##### Development team
+
+- Hallison Brancalhão - ([hallison.brancalhao@crefaz.com.br](mailto:hallison.brancalhao@crefaz.com.br))
+- Júlio Rossato - ([contato@julirossato.com.br](mailto:contato@julirossato.com.br))
