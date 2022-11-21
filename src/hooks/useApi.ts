@@ -54,5 +54,8 @@ export const useApi = () => ({
   validateToken: async (token: string) => {
     const response = await api.post("validate", { token });
     return response.data;
+  },
+  savedata: async (data: string) => {
+
   }
 })

@@ -3,6 +3,7 @@
   --light: 'exo2light';
 
   --color-azul: #263659;
+  --color-azul-2: #54607b;
   --color-laranja-1: #E57817;
   --color-laranja-2: #E56917;
   --color-laranja-3: #EF9457;
@@ -23,12 +24,13 @@
 }
 
 .transition button {
-  transition: opacity 170ms ease-in-out,background-color 350ms ease-in-out,color 350ms ease-in-out;
-}
-.transition button:hover {
-  transition: opacity 170ms ease-in-out,background-color 350ms ease-in-out,color 350ms ease-in-out;
+  transition: opacity 170ms ease-in-out, background-color 350ms ease-in-out, color 350ms ease-in-out;
 }
 
-body{
+.transition button:hover {
+  transition: opacity 170ms ease-in-out, background-color 350ms ease-in-out, color 350ms ease-in-out;
+}
+
+body {
   font-family: var(--regular);
 }

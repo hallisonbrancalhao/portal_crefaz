@@ -1,0 +1,23 @@
+.input-data {
+    padding: .5rem 1.5rem !important;
+}
+
+.tiitle {
+    color: var(--color-azul-2);
+    font-weight: 500;
+}
+
+.form-control {
+    font-size: .8rem !important;
+}
+
+p>span {
+    color: red;
+}
+
+.label-input {
+    font-size: 12px;
+    margin-bottom: .5rem;
+    font-weight: 400;
+    color: var(--color-azul-2);
+}

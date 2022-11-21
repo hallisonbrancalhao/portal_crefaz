@@ -1,39 +1,53 @@
  .tiitle {
-    color:var(--color-azul);;
-    font-weight: 400;
-}
+     color: var(--color-azul);
+     font-weight: 400;
+ }
 
-.links {
-    cursor: pointer;
-    transition: color 170ms ease-in-out;
-}
+ .video {
+     border-radius: 28px 28px 0 0;
+ }
 
-.links:hover {
-    color: var(--color-laranja-1);
-    transition: color 170ms ease-in-out;
-}
+ .links {
+     cursor: pointer;
+     transition: color 170ms ease-in-out;
+ }
 
-.info, .links {
-    font-weight: 400;
-    color: var(--color-azul-claro-2);
-}
+ .links:hover {
+     color: var(--color-laranja-1);
+     transition: color 170ms ease-in-out;
+ }
 
+ .info,
+ .links {
+     font-weight: 400;
+     color: var(--color-azul-claro-2);
+ }
 
-.sub_title {
-    font-weight: 400;
-    color: var(--color-azul);
-}
+ .errorMessage {
+     margin-top: 1rem;
+     color: brown;
+     font-size: 12px;
+ }
 
-.sub_title>span {
-    color: var(--color-laranja-1);
-}
+ .errorLabel {
+     border-color: red !important;
+ }
 
-.inputs>button>span {
-    margin: 0 1rem;
-    transition: margin-right 170ms ease-in-out;
-}
+ .sub_title {
+     font-weight: 400;
+     color: var(--color-azul);
+ }
 
-.inputs>button:hover>span {
-    margin-right: 2rem;
-    transition: margin-right 170ms ease-in-out;
-}
+ .sub_title>span {
+     color: var(--color-laranja-1);
+ }
+
+ .inputs>button>span {
+     margin: 0 1rem;
+     transition: margin-right 170ms ease-in-out;
+ }
+
+ .inputs>button:hover>span {
+     margin-right: 2rem;
+     transition: margin-right 170ms ease-in-out;
+ }
