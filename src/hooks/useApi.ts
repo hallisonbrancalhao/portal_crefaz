@@ -3,7 +3,11 @@ import axios from "axios";
 const api = axios.create({
   baseURL: process.env.REACT_APP_URL_API,
   headers: {
-    "Content-Type": "application/json;charset=UTF-8"
+    "Accept": "*/*",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Authorization",
+    "Content-Type": "application/json;charset=UTF-8",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, PATCH, DELETE",
   },
 });
 
