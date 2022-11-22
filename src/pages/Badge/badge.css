@@ -4,6 +4,12 @@
     color: var(--color-azul-2);
 }
 
+input[type='file'] {
+    display: none !important;
+}
+
+
+
 .cracha-card {
     text-align: center;
     align-items: center;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, FormEvent, ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import "../index.css";
@@ -14,13 +14,21 @@ const Badge = () => {
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
   const [image, setImage] = useState('');
-  const [endImg, setEndImg] = useState('');
 
-  const uploadImage = (e: Event) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('image', image);
-  }
+  const convertImage = (e: FormEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+
+    let file: File = (target.files as FileList)[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      console.log(reader.result);
+      setImage(`${reader.result}`);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  };
 
   return (
 
@@ -33,8 +41,11 @@ const Badge = () => {
             e de impressão</h2>
           <div className="cracha-card px-4 py-3 mt-5">
             <div className="pt-3 px-4">
-              <div className="cracha-card_imagem__div p-3">
-                <ImagemIcon width="5rem" />
+              <div className="cracha-card_imagem__div">
+                {image
+                  ? (<img src={image} className='img-fluid' />)
+                  : (<ImagemIcon width="5rem" className='p-3' />)
+                }
               </div>
             </div>
             <p className='fs-3 px-4 cracha-card_nome'>
@@ -48,7 +59,7 @@ const Badge = () => {
         <div className="col-md-5 offset-md-1">
           <div className='inputs transition mt-5'>
             <video className='cracha-video' width="100%" controls >
-              <source src={require("../../assets/naruto.mp4")} type="video/mp4" />
+              <source src={require("../../assets/crefaz.mp4")} type="video/mp4" />
             </video>
             <h3 className='cracha-subtitle_form mt-5'>Personalize seu crachá</h3>
             <div className="text-start">
@@ -85,10 +96,12 @@ const Badge = () => {
               <div className="row">
                 <div className="col-12 col-md-6 mt-4">
                   <div className="d-grid gap-2">
-                    <button className='btn btn-secondary' onClick={() => { console.log('upload img') }}>
-                      <span>Carregar <span className="d-inline-flex d-sm-none d-md-none d-lg-inline-flex">foto</span></span>
+
+                    <label className='btn btn-secondary'>
+                      <span className='px-3'>Carregar <span className="d-inline-flex d-sm-none d-md-none d-lg-inline-flex">foto</span></span>
                       <UploadIcon width="0.7rem" />
-                    </button>
+                      <input className='form-control' type="file" id='fileUpload' onChange={(e) => convertImage(e)} />
+                    </label>
                   </div>
                 </div>
                 <div className="col-12 col-md-6 text-end mt-4">
