@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, ChangeEvent } from 'react'
+import React, { useState, FormEvent, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import "../index.css";
@@ -14,6 +14,27 @@ const Badge = () => {
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
   const [image, setImage] = useState('');
+  const [profileData, setProfileData] = useState({
+    nome: "",
+    endereco: "",
+    telefone: "",
+    departamento: "",
+    estadoCivil: "",
+    numeroFilhos: "",
+    dataNascimento: "",
+    perfilPessoal: "",
+    imagemPerfil: ""
+  })
+
+  useEffect(() => {
+    const data = localStorage.getItem('profileData');
+    if (data) {
+      setProfileData(JSON.parse(data));
+    }
+    if (!image) {
+      setImage(profileData.imagemPerfil);
+    }
+  }, [profileData.imagemPerfil, image])
 
   const convertImage = (e: FormEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
@@ -22,7 +43,6 @@ const Badge = () => {
     let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function () {
-      console.log(reader.result);
       setImage(`${reader.result}`);
     };
     reader.onerror = function (error) {
@@ -43,13 +63,18 @@ const Badge = () => {
             <div className="pt-3 px-4">
               <div className="cracha-card_imagem__div">
                 {image
-                  ? (<img src={image} className='img-fluid' />)
-                  : (<ImagemIcon width="5rem" className='p-3' />)
+                  ? (<img src={image} className='img-fluid img_profile_badge' alt='Imagem Default' />)
+                  : (<ImagemIcon width="5rem" className='px-3 py-5' />)
                 }
               </div>
             </div>
             <p className='fs-3 px-4 cracha-card_nome'>
-              {nomeCracha ? nomeCracha : "Nome Sobrenome"}
+              {nomeCracha
+                ? nomeCracha
+                : profileData?.nome
+                  ? profileData?.nome
+                  : "Nome Sobrenome"
+              }
             </p>
 
             <hr className="solid"></hr>

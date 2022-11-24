@@ -11,6 +11,13 @@
     font-size: .8rem !important;
 }
 
+.img_profile {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 100px !important;
+}
+
 p>span {
     color: red;
 }
