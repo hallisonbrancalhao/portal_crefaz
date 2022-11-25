@@ -4,10 +4,7 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_URL_API,
   headers: {
     "Accept": "*/*",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Authorization",
     "Content-Type": "application/json;charset=UTF-8",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, PATCH, DELETE",
   },
 });
 
@@ -33,12 +30,10 @@ export const useApi = () => ({
 
     const employee_conf = {
       headers: {
-        "Accept": "*/*",
-        "Access-Control-Allow-Credentials": "true",
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "Authorization",
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, PATCH, DELETE",
-        "Authorization": `Bearer ${bearer.data.data.token}`
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Authorization": `Bearer ${bearer.data.data.token}`,
       }
     }
 

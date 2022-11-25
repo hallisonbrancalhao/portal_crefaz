@@ -12,7 +12,7 @@ const Login = () => {
     if (authAlready.user != null) {
       navigate('/apresentacao');
     }
-  }, [])
+  }, [authAlready.user, navigate])
 
   const [errorMessage, serErrorMessage] = useState('');
   const auth = useContext(AuthContext);
@@ -41,7 +41,7 @@ const Login = () => {
           navigate('/apresentacao');
         }
       } catch (error) {
-        serErrorMessage(`Falha ao realizar login, erro: ${error}`);
+        serErrorMessage(`Falha ao realizar login`);
       }
 
     }
