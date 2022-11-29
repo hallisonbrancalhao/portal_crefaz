@@ -50,11 +50,13 @@ export const useApi = () => ({
   signout: async () => {
     localStorage.removeItem('bearer');
   },
-  validateToken: async (token: string) => {
-    const response = await api.post("validate", { token });
-    return response.data;
-  },
   savedata: async (data: string) => {
+    var JSONdata = JSON.parse(data);
+    console.log("data: ", JSONdata)
+    const response = await api.post(`employee`, data)
+    if (response) {
+      return true
+    }
 
   }
 })

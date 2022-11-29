@@ -21,25 +21,17 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const signin = async (login: string, password: string) => {
         const response = await api.signin(login, password);
         response.data = response.data[0];
-        if (!response) {
+
+        if (response.statusCode !== 200) {
             return false;
         }
 
-        const user = {
-            id: response.data.id,
-            name: response.data.fullName,
-            email: response.data.email,
-            cpf: response.data.cpf,
-            bearer: response.bearer
-        };
+        let user = response.data;
+        user['bearer'] = response.bearer;
 
-        if (user.cpf && user.bearer) {
-            setUser(user);
-            localStorage.setItem('auth', JSON.stringify(user))
-            return true;
-        }
-
-        return false;
+        setUser(user);
+        localStorage.setItem('auth', JSON.stringify(response.data))
+        return true;
     }
 
     const signout = async () => {
@@ -47,9 +39,18 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
         setUser(null);
     }
 
+    const savedata = async (data: string) => {
+        const save = await api.savedata(data);
+
+        if (save) {
+            console.log("save ", save)
+            return true;
+        }
+        return false;
+    }
 
     return (
-        <AuthContext.Provider value={{ user, signin, signout }}>
+        <AuthContext.Provider value={{ user, signin, signout, savedata }}>
             {children}
         </AuthContext.Provider>
     );

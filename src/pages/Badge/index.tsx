@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, useEffect } from 'react'
+import React, { useState, FormEvent, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import "../index.css";
@@ -6,9 +6,11 @@ import "./badge.css";
 import { ReactComponent as NextIcon } from '../../icons/seta-direita.svg'
 import { ReactComponent as UploadIcon } from '../../icons/upload.svg'
 import { ReactComponent as ImagemIcon } from '../../icons/user-regular.svg'
+import { AuthContext } from '../../contexts/Auth/AuthContext';
 
 const Badge = () => {
   const navigate = useNavigate();
+  const auth = useContext(AuthContext);
 
   const [nomeCracha, setNomeCracha] = useState('');
   const [email, setEmail] = useState('');
@@ -49,6 +51,40 @@ const Badge = () => {
       console.log('Error: ', error);
     };
   };
+
+  const handleSend = async () => {
+    const profileData = localStorage.getItem('profileData');
+    const data = localStorage.getItem('auth');
+
+    const newData = JSON.parse(`${profileData}`);
+    const dataUser = JSON.parse(`${data}`);
+
+    const dataSend = {
+      id: dataUser.id,
+      firstName: dataUser.firstName,
+      lastName: dataUser.lastName,
+      fullName: dataUser.fullName,
+      birthDate: dataUser.birthDate,
+      sex: dataUser.sex,
+      cpf: dataUser.cpf,
+      rg: dataUser.rg,
+      maritalStatus: dataUser.maritalStatus,
+      numberChildren: dataUser.numberChildren,
+      image: dataUser.image,
+      department: dataUser.department,
+      hireDate: dataUser.hireDate,
+      socialNetworks: dataUser.socialNetworks,
+      email: dataUser.email,
+      password: dataUser.password,
+      token: dataUser.token,
+      statusCode: dataUser.statusCode,
+      createdAt: dataUser.createdAt,
+      updatedAt: dataUser.updatedAt,
+      deletedAt: dataUser.deletedAt
+    }
+    const send = await auth.savedata(JSON.stringify(dataSend));
+    console.log("send", send)
+  }
 
   return (
 
@@ -131,7 +167,7 @@ const Badge = () => {
                 </div>
                 <div className="col-12 col-md-6 text-end mt-4">
                   <div className="d-grid gap-2">
-                    <button className='btn btn-secondary' onClick={() => { navigate('/apresentacao') }}>
+                    <button className='btn btn-secondary' onClick={() => { handleSend() }}>
                       <span>Enviar</span>
                       <NextIcon width="0.6rem" />
                     </button>
