@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, useContext } from 'react'
+import React, { useState, FormEvent, useContext, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom';
 import "../index.css";
 import "./profile.css";
@@ -6,61 +6,40 @@ import { ReactComponent as IconMenu } from '../../icons/seta-direita.svg';
 import profile_image from '../../assets/profile_image.png';
 import { AuthContext } from '../../contexts/Auth/AuthContext';
 
+interface IForm {
+  nome: string;
+  endereco: string;
+  telefone: string;
+  departamento: string;
+  estadoCivil: string;
+  numeroFilhos: string;
+  dataNascimento: string;
+  perfilPessoal: string;
+  imagemPerfil: string;
+}
 const Profile = () => {
-  const navigate = useNavigate();
-  const auth = useContext(AuthContext);
+
 
   const [image, setImage] = useState('');
 
-  const [nome, setNome] = useState('');
-  const [endereco, setEndereco] = useState('');
-  const [telefone, setTelefone] = useState('');
-  const [departamento, setDepartamento] = useState('');
-  const [estadoCivil, setEstadoCivil] = useState('');
-  const [numeroFilhos, setNumFilhos] = useState('');
-  const [dataNascimento, setDataNascimento] = useState('');
-  const [perfilPessoal, setPerfilPessoal] = useState('');
+  const [formState, setFormState] = useState<IForm>({
+    nome: "",
+    endereco: "",
+    telefone: "",
+    departamento: "",
+    estadoCivil: "",
+    numeroFilhos: "",
+    dataNascimento: "",
+    perfilPessoal: "",
+    imagemPerfil: "",
+  })
 
-  const handleEnviar = (event: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const form = event.currentTarget;
-
-    const formElements = Array.from(form.elements);
-
-    /*
-        formElements.forEach(element => {
-          let id = element.getAttribute('name')
-          let val = element.getAttribute('value')
-    
-          let obj[`${id}`] =  val ;
-        });
-    */
 
 
-    //auth.savedata(JSON.stringify(inputs));
-
-    /*
-    
-        profileData.nome = nome;
-        profileData.endereco = endereco;
-        profileDat0a.telefone = telefone;
-        profileData.departamento = departamento;
-        profileData.estadoCivil = estadoCivil;
-        profileData.numeroFilhos = numeroFilhos;
-        profileData.dataNascimento = dataNascimento;
-        profileData.perfilPessoal = perfilPessoal;
-        profileData.imagemPerfil = image;
-    
-        localStorage.setItem('profileData', JSON.stringify(profileData));
-    
-        const responseProfileData = localStorage.getItem('profileData');
-        console.log("responseProfileData: ", responseProfileData)
-    
-    navigate('/cracha');
-
-        */
-  }
+  }, []);
 
   const convertImage = (e: FormEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
@@ -74,18 +53,6 @@ const Profile = () => {
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
-  };
-
-  const profileData = {
-    "nome": nome,
-    "endereco": endereco,
-    "telefone": telefone,
-    "departamento": departamento,
-    "estadoCivil": estadoCivil,
-    "numeroFilhos": numeroFilhos,
-    "dataNascimento": dataNascimento,
-    "perfilPessoal": perfilPessoal,
-    "imagemPerfil": image
   };
 
   return (
@@ -112,92 +79,132 @@ const Profile = () => {
               id='profileEmployee'
               method='POST'
               encType='multipart/form-data'
-              onSubmit={(e: React.SyntheticEvent<HTMLFormElement>) => { handleEnviar(e) }}
+              onSubmit={handleSubmit}
             >
 
-              <label className='px-3 pt-4 pb-0'><p className="label-input">Nome<span>*</span></p></label>
+              <label htmlFor='fullName' className='px-3 pt-4 pb-0'><p className="label-input">Nome<span>*</span></p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={nome}
-                onChange={e => setNome(e.target.value)}
+                value={formState.nome}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    nome: event.currentTarget.value
+                  })
+                }
                 placeholder="Exemplo: João da Silva"
                 name='fullName'
               />
 
-              <label className='px-3 pt-2'><p className="label-input">Endereço<span>*</span></p></label>
+              <label htmlFor='adress' className='px-3 pt-2'><p className="label-input">Endereço<span>*</span></p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={endereco}
-                onChange={e => setEndereco(e.target.value)}
+                value={formState.endereco}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    endereco: event.currentTarget.value
+                  })
+                }
                 placeholder="Exemplo: Av. Duque de Caxias, 882, Sala 503 - Maringá, PR"
                 name='address'
               />
 
-              <label className='px-3 pt-2'><p className="label-input">Telefone<span>*</span></p></label>
+              <label htmlFor='phone' className='px-3 pt-2'><p className="label-input">Telefone<span>*</span></p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={telefone}
-                onChange={e => setTelefone(e.target.value)}
+                value={formState.telefone}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    telefone: event.currentTarget.value
+                  })
+                }
                 placeholder="(___) ___-____"
                 name='phone'
               />
 
-              <label className='px-3 pt-2'><p className="label-input">Departamento<span>*</span></p></label>
+              <label htmlFor='department' className='px-3 pt-2'><p className="label-input">Departamento<span>*</span></p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={departamento}
-                onChange={e => setDepartamento(e.target.value)}
+                value={formState.departamento}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    departamento: event.currentTarget.value
+                  })
+                }
                 placeholder="Exemplo: Marketing"
                 name='department'
               />
 
-              <label className='px-3 pt-2'><p className="label-input">Estado Civil<span>*</span></p></label>
+              <label htmlFor='maritalStatus' className='px-3 pt-2'><p className="label-input">Estado Civil<span>*</span></p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={estadoCivil}
-                onChange={e => setEstadoCivil(e.target.value)}
+                value={formState.estadoCivil}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    estadoCivil: event.currentTarget.value
+                  })
+                }
                 placeholder="Exemplo: Solteiro, Casado, Divorciado"
                 name='maritalStatus'
               />
 
-              <label className='px-3 pt-2'><p className="label-input">Numero de Filhos<span>*</span></p></label>
+              <label htmlFor='numberChildren' className='px-3 pt-2'><p className="label-input">Numero de Filhos<span>*</span></p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={numeroFilhos}
-                onChange={e => setNumFilhos(e.target.value)}
+                value={formState.numeroFilhos}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    numeroFilhos: event.currentTarget.value
+                  })
+                }
                 placeholder="Exemplo: 0,1,2,3"
                 name='numberChildren'
               />
 
-              <label className='px-3 pt-2'><p className="label-input">Data de Nascimento<span>*</span></p></label>
+              <label htmlFor='birthDate' className='px-3 pt-2'><p className="label-input">Data de Nascimento<span>*</span></p></label>
               <input
                 required
                 type="date"
                 className='form-control input-data'
-                value={dataNascimento}
-                onChange={e => setDataNascimento(e.target.value)}
+                value={formState.dataNascimento}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    dataNascimento: event.currentTarget.value
+                  })
+                }
                 name='birthDate'
               />
 
-              <label className='px-3 pt-2'><p className="label-input">Perfil Pessoal</p></label>
+              <label htmlFor='socialNetworks' className='px-3 pt-2'><p className="label-input">Perfil Pessoal</p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={perfilPessoal}
-                onChange={e => setPerfilPessoal(e.target.value)}
+                value={formState.perfilPessoal}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    perfilPessoal: event.currentTarget.value
+                  })
+                }
                 placeholder='Exemplo: instagram.com/NomeDoPerfil'
                 name='socialNetworks'
               />
