@@ -40,17 +40,24 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     }
 
     const savedata = async (data: string) => {
-        const save = await api.savedata(data);
+        const response = await api.savedata(data);
+        if (response) {
+            console.log('Requisiçao enviada para a API')
+            return true
+        }
+        return false;
+    }
 
-        if (save) {
-            console.log("save ", save)
+    const sendimage = async (data: string) => {
+        const response = await api.sendimage(data);
+        if (response) {
             return true;
         }
         return false;
     }
 
     return (
-        <AuthContext.Provider value={{ user, signin, signout, savedata }}>
+        <AuthContext.Provider value={{ user, signin, signout, savedata, sendimage }}>
             {children}
         </AuthContext.Provider>
     );

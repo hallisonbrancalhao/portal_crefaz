@@ -6,6 +6,7 @@ export type AuthContextType = {
     signin: (email: string, password: string) => Promise<boolean>;
     signout: () => void;
     savedata: (data: string) => Promise<boolean>;
+    sendimage: (data: string) => Promise<boolean>;
 }
 
 export const AuthContext = createContext({} as AuthContextType);

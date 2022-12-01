@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, useEffect, useContext } from 'react'
+import React, { useState, FormEvent, useEffect, useContext, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import "../index.css";
@@ -7,87 +7,91 @@ import { ReactComponent as NextIcon } from '../../icons/seta-direita.svg'
 import { ReactComponent as UploadIcon } from '../../icons/upload.svg'
 import { ReactComponent as ImagemIcon } from '../../icons/user-regular.svg'
 import { AuthContext } from '../../contexts/Auth/AuthContext';
+import { BodyType } from '../../types/BodyType';
 
 const Badge = () => {
-  const navigate = useNavigate();
   const auth = useContext(AuthContext);
+  const navigate = useNavigate();
+  const userStr = localStorage.getItem('auth');
+  const user = JSON.parse(`${userStr}`);
 
-  const [nomeCracha, setNomeCracha] = useState('');
-  const [email, setEmail] = useState('');
-  const [telefone, setTelefone] = useState('');
   const [image, setImage] = useState('');
-  const [profileData, setProfileData] = useState({
-    nome: "",
-    endereco: "",
-    telefone: "",
-    departamento: "",
-    estadoCivil: "",
-    numeroFilhos: "",
-    dataNascimento: "",
-    perfilPessoal: "",
-    imagemPerfil: ""
+
+  const [formState, setFormState] = useState<BodyType>({
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    fullName: user.fullName,
+    birthDate: user.birthDate,
+    sex: user.sex,
+    cpf: user.cpf,
+    rg: user.rg,
+    maritalStatus: user.maritalStatus,
+    numberChildren: user.numberChildren,
+    postalCode: user.postalCode,
+    uf: user.uf,
+    city: user.city,
+    district: user.district,
+    address: user.address,
+    addressNumber: user.addressNumber,
+    complement: user.complement,
+    department: user.department,
+    hireDate: user.hireDate,
+    socialNetworks: user.socialNetworks,
+    phone: user.phone,
+    email: user.email,
+    password: user.password,
+    token: user.token,
+    statusCode: user.statusCode,
   })
 
   useEffect(() => {
-    const data = localStorage.getItem('profileData');
+    const img = localStorage.getItem('profileImage');
+    const data = localStorage.getItem('auth');
     if (data) {
-      setProfileData(JSON.parse(data));
+      setFormState(JSON.parse(data));
     }
     if (!image) {
-      setImage(profileData.imagemPerfil);
+      setImage(`${img}`);
     }
-  }, [profileData.imagemPerfil, image])
+  }, [setFormState, image])
 
   const convertImage = (e: FormEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
-
     let file: File = (target.files as FileList)[0];
     let reader = new FileReader();
     reader.readAsDataURL(file);
+
     reader.onload = function () {
+      let r = (`${reader.result}`);
+      r.split(',', 2);
+
+      console.log("este é o R: ", r);
       setImage(`${reader.result}`);
     };
+
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
   };
 
-  const handleSend = async () => {
-    const profileData = localStorage.getItem('profileData');
-    const data = localStorage.getItem('auth');
+  const handleSend = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const body = {
+      employeeId: formState.id,
+      description: "Crachá",
+      file: image
+    };
 
-    const newData = JSON.parse(`${profileData}`);
-    const dataUser = JSON.parse(`${data}`);
+    // const responseImg = await auth.sendimage(JSON.stringify(body));
+    // const responseData = await auth.savedata(JSON.stringify(formState));
 
-    const dataSend = {
-      id: dataUser.id,
-      firstName: dataUser.firstName,
-      lastName: dataUser.lastName,
-      fullName: dataUser.fullName,
-      birthDate: dataUser.birthDate,
-      sex: dataUser.sex,
-      cpf: dataUser.cpf,
-      rg: dataUser.rg,
-      maritalStatus: dataUser.maritalStatus,
-      numberChildren: dataUser.numberChildren,
-      image: dataUser.image,
-      department: dataUser.department,
-      hireDate: dataUser.hireDate,
-      socialNetworks: dataUser.socialNetworks,
-      email: dataUser.email,
-      password: dataUser.password,
-      token: dataUser.token,
-      statusCode: dataUser.statusCode,
-      createdAt: dataUser.createdAt,
-      updatedAt: dataUser.updatedAt,
-      deletedAt: dataUser.deletedAt
-    }
-    const send = await auth.savedata(JSON.stringify(dataSend));
-    console.log("send", send)
-  }
+    // if (!!responseImg && !!responseData) {
+    //   navigate('/apresentacao');
+    // }
+  }, [formState, image]);
 
   return (
-
     <div className="container">
       <div className="row align-items-end text-center mb-5 ">
         <div className="col-md-3 offset-md-1 text-start align-items-between px-5 ">
@@ -105,11 +109,9 @@ const Badge = () => {
               </div>
             </div>
             <p className='fs-3 px-4 cracha-card_nome'>
-              {nomeCracha
-                ? nomeCracha
-                : profileData?.nome
-                  ? profileData?.nome
-                  : "Nome Sobrenome"
+              {formState.fullName
+                ? formState.fullName
+                : "Nome Sobrenome"
               }
             </p>
 
@@ -125,55 +127,81 @@ const Badge = () => {
             <h3 className='cracha-subtitle_form mt-5'>Personalize seu crachá</h3>
             <div className="text-start">
 
-              <label className='px-3 pt-4 pb-0'><p className="label-input">Nome do crachá<span>*</span></p></label>
-              <input
-                required
-                type="text"
-                className='form-control input-data'
-                value={nomeCracha}
-                onChange={e => setNomeCracha(e.target.value)}
-                placeholder="Exemplo: João da Silva"
-              />
+              <form
+                className='text-start'
+                id='bedgeEmployee'
+                method='POST'
+                encType='multipart/form-data'
+                onSubmit={handleSend}
+              >
 
-              <label className='px-3 pt-4 pb-0'><p className="label-input">Email<span>*</span></p></label>
-              <input
-                required
-                type="text"
-                className='form-control input-data'
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="Exemplo: João.silva@crefaz.com.br"
-              />
+                <label htmlFor='fullName' className='px-3 pt-4 pb-0'><p className="label-input">Nome<span>*</span></p></label>
+                <input
+                  required
+                  type="text"
+                  className='form-control input-data'
+                  value={formState.fullName || undefined}
+                  onChange={(event) =>
+                    setFormState({
+                      ...formState,
+                      fullName: event.currentTarget.value
+                    })
+                  }
+                  placeholder="Exemplo: João da Silva"
+                  name='fullName'
+                />
 
-              <label className='px-3 pt-2'><p className="label-input">Telefone<span>*</span></p></label>
-              <input
-                required
-                type="text"
-                className='form-control input-data'
-                value={telefone}
-                onChange={e => setTelefone(e.target.value)}
-                placeholder="(___) ___-____"
-              />
-              <div className="row">
-                <div className="col-12 col-md-6 mt-4">
-                  <div className="d-grid gap-2">
+                <label htmlFor='email' className='px-3 pt-2'><p className="label-input">E-mail<span>*</span></p></label>
+                <input
+                  required
+                  type="email"
+                  className='form-control input-data'
+                  value={formState.email || undefined}
+                  onChange={(event) =>
+                    setFormState({
+                      ...formState,
+                      email: event.currentTarget.value
+                    })
+                  }
+                  placeholder="Ex: seuemail@dominio.com"
+                  name='email'
+                />
 
-                    <label className='btn btn-secondary'>
-                      <span className='px-3'>Carregar <span className="d-inline-flex d-sm-none d-md-none d-lg-inline-flex">foto</span></span>
-                      <UploadIcon width="0.7rem" />
-                      <input className='form-control' type="file" id='fileUpload' onChange={(e) => convertImage(e)} />
-                    </label>
+                <label htmlFor='phone' className='px-3 pt-2'><p className="label-input">Telefone<span>*</span></p></label>
+                <input
+                  required
+                  type="text"
+                  className='form-control input-data'
+                  value={formState.phone || undefined}
+                  onChange={(event) =>
+                    setFormState({
+                      ...formState,
+                      phone: event.currentTarget.value
+                    })
+                  }
+                  placeholder="(___) ___-____"
+                  name='phone'
+                />
+                <div className="row">
+                  <div className="col-12 col-md-6 mt-4">
+                    <div className="d-grid gap-2">
+                      <label className='btn btn-secondary'>
+                        <span className='px-3'>Carregar <span className="d-inline-flex d-sm-none d-md-none d-lg-inline-flex">foto</span></span>
+                        <UploadIcon width="0.7rem" />
+                        <input className='form-control' type="file" id='fileUpload' onChange={(e) => convertImage(e)} />
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6 text-end mt-4">
+                    <div className="d-grid gap-2">
+                      <button className='btn btn-secondary' type='submit'>
+                        <span>Enviar</span>
+                        <NextIcon width="0.6rem" />
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-6 text-end mt-4">
-                  <div className="d-grid gap-2">
-                    <button className='btn btn-secondary' onClick={() => { handleSend() }}>
-                      <span>Enviar</span>
-                      <NextIcon width="0.6rem" />
-                    </button>
-                  </div>
-                </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>

@@ -1,45 +1,62 @@
-import React, { useState, FormEvent, useContext, useCallback } from 'react'
+import React, { useState, FormEvent, useCallback, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import "../index.css";
 import "./profile.css";
 import { ReactComponent as IconMenu } from '../../icons/seta-direita.svg';
+import { ReactComponent as IconSave } from '../../icons/save.svg';
 import profile_image from '../../assets/profile_image.png';
 import { AuthContext } from '../../contexts/Auth/AuthContext';
+import { BodyType } from '../../types/BodyType';
 
-interface IForm {
-  nome: string;
-  endereco: string;
-  telefone: string;
-  departamento: string;
-  estadoCivil: string;
-  numeroFilhos: string;
-  dataNascimento: string;
-  perfilPessoal: string;
-  imagemPerfil: string;
-}
 const Profile = () => {
-
-
+  const auth = useContext(AuthContext);
+  const [handleDisable, setHandleDisable] = useState(true);
   const [image, setImage] = useState('');
+  const userStr = localStorage.getItem('auth');
+  const user = JSON.parse(`${userStr}`);
+  const navigate = useNavigate();
 
-  const [formState, setFormState] = useState<IForm>({
-    nome: "",
-    endereco: "",
-    telefone: "",
-    departamento: "",
-    estadoCivil: "",
-    numeroFilhos: "",
-    dataNascimento: "",
-    perfilPessoal: "",
-    imagemPerfil: "",
+  const [formState, setFormState] = useState<BodyType>({
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    fullName: user.fullName,
+    birthDate: user.birthDate,
+    sex: user.sex,
+    cpf: user.cpf,
+    rg: user.rg,
+    maritalStatus: user.maritalStatus,
+    numberChildren: user.numberChildren,
+    postalCode: user.postalCode,
+    uf: user.uf,
+    city: user.city,
+    district: user.district,
+    address: user.address,
+    addressNumber: user.addressNumber,
+    complement: user.complement,
+    department: user.department,
+    hireDate: user.hireDate,
+    socialNetworks: user.socialNetworks,
+    phone: user.phone,
+    email: user.email,
+    password: user.password,
+    token: user.token,
+    statusCode: user.statusCode,
   })
 
-  const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
+  const handleAvancar = () => {
+    navigate('/cracha');
+  }
+
+  const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    localStorage.setItem('auth', JSON.stringify(formState));
+    const status = await auth.savedata(JSON.stringify(formState));
+    if (status) {
+      setHandleDisable(false);
+    }
 
-
-
-  }, []);
+  }, [formState, auth]);
 
   const convertImage = (e: FormEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
@@ -49,10 +66,12 @@ const Profile = () => {
     reader.readAsDataURL(file);
     reader.onload = function () {
       setImage(`${reader.result}`);
+      localStorage.setItem('profileImage', `${reader.result}`);
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
+    localStorage.setItem('profileImage', image);
   };
 
   return (
@@ -66,9 +85,9 @@ const Profile = () => {
               : (<img className="img-fluid px-5 mb-4" src={profile_image} alt="Imagem de perfil" />)
             }
           </div>
-          <label className='btn btn-secondary'>
+          <label htmlFor='fileUpload' className='btn btn-secondary'>
             <span className='px-3'>Carregar <span className="d-inline-flex d-sm-none d-md-none d-lg-inline-flex">foto</span></span>
-            <input className='form-control' type="file" id='fileUpload' onChange={(e) => convertImage(e)} />
+            <input name='fileUpload' className='form-control' type="file" id='fileUpload' onChange={(e) => convertImage(e)} />
           </label>
         </div>
         <div className="col-md-8 d-flex justify-content-center">
@@ -87,11 +106,11 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.nome}
+                value={formState.fullName || undefined}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
-                    nome: event.currentTarget.value
+                    fullName: event.currentTarget.value
                   })
                 }
                 placeholder="Exemplo: João da Silva"
@@ -103,11 +122,11 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.endereco}
+                value={formState.address || undefined}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
-                    endereco: event.currentTarget.value
+                    address: event.currentTarget.value
                   })
                 }
                 placeholder="Exemplo: Av. Duque de Caxias, 882, Sala 503 - Maringá, PR"
@@ -119,11 +138,11 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.telefone}
+                value={formState.phone || undefined}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
-                    telefone: event.currentTarget.value
+                    phone: event.currentTarget.value
                   })
                 }
                 placeholder="(___) ___-____"
@@ -135,11 +154,11 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.departamento}
+                value={formState.department || undefined}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
-                    departamento: event.currentTarget.value
+                    department: event.currentTarget.value
                   })
                 }
                 placeholder="Exemplo: Marketing"
@@ -151,11 +170,11 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.estadoCivil}
+                value={formState.maritalStatus || undefined}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
-                    estadoCivil: event.currentTarget.value
+                    maritalStatus: event.currentTarget.value
                   })
                 }
                 placeholder="Exemplo: Solteiro, Casado, Divorciado"
@@ -167,11 +186,11 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.numeroFilhos}
+                value={formState.numberChildren || undefined}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
-                    numeroFilhos: event.currentTarget.value
+                    numberChildren: event.currentTarget.value
                   })
                 }
                 placeholder="Exemplo: 0,1,2,3"
@@ -183,11 +202,11 @@ const Profile = () => {
                 required
                 type="date"
                 className='form-control input-data'
-                value={formState.dataNascimento}
+                value={formState.birthDate || undefined}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
-                    dataNascimento: event.currentTarget.value
+                    birthDate: event.currentTarget.value
                   })
                 }
                 name='birthDate'
@@ -198,11 +217,11 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.perfilPessoal}
+                value={formState.socialNetworks || undefined}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
-                    perfilPessoal: event.currentTarget.value
+                    socialNetworks: event.currentTarget.value
                   })
                 }
                 placeholder='Exemplo: instagram.com/NomeDoPerfil'
@@ -224,19 +243,28 @@ const Profile = () => {
               <input type='hidden' name='addressNumber' />
               <input type='hidden' name='complement' />
               <input type='hidden' name='statusCode' />
-              <input type='hidden' name='createdAt' />
-              <input type='hidden' name='updatedAt' />
-              <input type='hidden' name='deletedAt' />
 
-              <button type='submit' className='px-5 py-2 btn btn-secondary mt-4'>
-                <span>Enviar</span>
-                <IconMenu width="0.6rem" />
-              </button>
+              <div className='row'>
+                <div className='col-md-6 text-center text-md-start'>
+                  <button type='submit' className='py-2 btn btn-secondary mt-4 w-100'>
+                    <IconSave width=".9rem" />
+                    <span className='mx-2'>Salvar</span>
+                  </button>
+                </div>
+                <div className="col-md-6 text-center text-md-end">
+                  <button id='avancar' type='button' className='w-100 py-2 btn btn-secondary mt-4 ms-2'
+                    disabled={handleDisable}
+                    onClick={handleAvancar}>
+                    <span>Avançar</span>
+                    <IconMenu width="0.6rem" />
+                  </button>
+                </div>
+              </div>
             </form>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
 
