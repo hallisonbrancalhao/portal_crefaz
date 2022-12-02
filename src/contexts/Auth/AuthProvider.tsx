@@ -42,7 +42,6 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const savedata = async (data: string) => {
         const response = await api.savedata(data);
         if (response) {
-            console.log('Requisiçao enviada para a API')
             return true
         }
         return false;

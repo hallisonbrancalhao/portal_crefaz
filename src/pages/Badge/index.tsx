@@ -1,95 +1,20 @@
-import React, { useState, FormEvent, useEffect, useContext, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React from 'react'
 import logo from '../../assets/logo.png';
 import "../index.css";
 import "./badge.css";
 import { ReactComponent as NextIcon } from '../../icons/seta-direita.svg'
 import { ReactComponent as UploadIcon } from '../../icons/upload.svg'
 import { ReactComponent as ImagemIcon } from '../../icons/user-regular.svg'
-import { AuthContext } from '../../contexts/Auth/AuthContext';
-import { BodyType } from '../../types/BodyType';
+import useBadgeHook from '../../hooks/badgeHook';
 
 const Badge = () => {
-  const auth = useContext(AuthContext);
-  const navigate = useNavigate();
-  const userStr = localStorage.getItem('auth');
-  const user = JSON.parse(`${userStr}`);
-
-  const [image, setImage] = useState('');
-
-  const [formState, setFormState] = useState<BodyType>({
-    id: user.id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    fullName: user.fullName,
-    birthDate: user.birthDate,
-    sex: user.sex,
-    cpf: user.cpf,
-    rg: user.rg,
-    maritalStatus: user.maritalStatus,
-    numberChildren: user.numberChildren,
-    postalCode: user.postalCode,
-    uf: user.uf,
-    city: user.city,
-    district: user.district,
-    address: user.address,
-    addressNumber: user.addressNumber,
-    complement: user.complement,
-    department: user.department,
-    hireDate: user.hireDate,
-    socialNetworks: user.socialNetworks,
-    phone: user.phone,
-    email: user.email,
-    password: user.password,
-    token: user.token,
-    statusCode: user.statusCode,
-  })
-
-  useEffect(() => {
-    const img = localStorage.getItem('profileImage');
-    const data = localStorage.getItem('auth');
-    if (data) {
-      setFormState(JSON.parse(data));
-    }
-    if (!image) {
-      setImage(`${img}`);
-    }
-  }, [setFormState, image])
-
-  const convertImage = (e: FormEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement;
-    let file: File = (target.files as FileList)[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onload = function () {
-      let r = (`${reader.result}`);
-      r.split(',', 2);
-
-      console.log("este é o R: ", r);
-      setImage(`${reader.result}`);
-    };
-
-    reader.onerror = function (error) {
-      console.log('Error: ', error);
-    };
-  };
-
-  const handleSend = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const body = {
-      employeeId: formState.id,
-      description: "Crachá",
-      file: image
-    };
-
-    // const responseImg = await auth.sendimage(JSON.stringify(body));
-    // const responseData = await auth.savedata(JSON.stringify(formState));
-
-    // if (!!responseImg && !!responseData) {
-    //   navigate('/apresentacao');
-    // }
-  }, [formState, image]);
+  const {
+    convertImage,
+    image,
+    formState,
+    setFormState,
+    handleSend
+  } = useBadgeHook();
 
   return (
     <div className="container">
@@ -122,7 +47,7 @@ const Badge = () => {
         <div className="col-md-5 offset-md-1">
           <div className='inputs transition mt-5'>
             <video className='cracha-video' width="100%" controls >
-              <source src={require("../../assets/crefaz.mp4")} type="video/mp4" />
+              <source src={require("../../assets/cracha.mp4")} type="video/mp4" />
             </video>
             <h3 className='cracha-subtitle_form mt-5'>Personalize seu crachá</h3>
             <div className="text-start">

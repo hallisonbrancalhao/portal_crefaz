@@ -1,78 +1,21 @@
-import React, { useState, FormEvent, useCallback, useContext } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React from 'react'
 import "../index.css";
 import "./profile.css";
 import { ReactComponent as IconMenu } from '../../icons/seta-direita.svg';
 import { ReactComponent as IconSave } from '../../icons/save.svg';
 import profile_image from '../../assets/profile_image.png';
-import { AuthContext } from '../../contexts/Auth/AuthContext';
-import { BodyType } from '../../types/BodyType';
+import useProfileHook from '../../hooks/profileHook';
 
 const Profile = () => {
-  const auth = useContext(AuthContext);
-  const [handleDisable, setHandleDisable] = useState(true);
-  const [image, setImage] = useState('');
-  const userStr = localStorage.getItem('auth');
-  const user = JSON.parse(`${userStr}`);
-  const navigate = useNavigate();
-
-  const [formState, setFormState] = useState<BodyType>({
-    id: user.id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    fullName: user.fullName,
-    birthDate: user.birthDate,
-    sex: user.sex,
-    cpf: user.cpf,
-    rg: user.rg,
-    maritalStatus: user.maritalStatus,
-    numberChildren: user.numberChildren,
-    postalCode: user.postalCode,
-    uf: user.uf,
-    city: user.city,
-    district: user.district,
-    address: user.address,
-    addressNumber: user.addressNumber,
-    complement: user.complement,
-    department: user.department,
-    hireDate: user.hireDate,
-    socialNetworks: user.socialNetworks,
-    phone: user.phone,
-    email: user.email,
-    password: user.password,
-    token: user.token,
-    statusCode: user.statusCode,
-  })
-
-  const handleAvancar = () => {
-    navigate('/cracha');
-  }
-
-  const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    localStorage.setItem('auth', JSON.stringify(formState));
-    const status = await auth.savedata(JSON.stringify(formState));
-    if (status) {
-      setHandleDisable(false);
-    }
-
-  }, [formState, auth]);
-
-  const convertImage = (e: FormEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement;
-
-    let file: File = (target.files as FileList)[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-      setImage(`${reader.result}`);
-      localStorage.setItem('profileImage', `${reader.result}`);
-    };
-    reader.onerror = function (error) {
-      console.log('Error: ', error);
-    };
-    localStorage.setItem('profileImage', image);
-  };
+  const {
+    image,
+    convertImage,
+    handleDisable,
+    formState,
+    setFormState,
+    handleAvancar,
+    handleSubmit,
+  } = useProfileHook();
 
   return (
 
@@ -227,22 +170,6 @@ const Profile = () => {
                 placeholder='Exemplo: instagram.com/NomeDoPerfil'
                 name='socialNetworks'
               />
-
-              <input type='hidden' name='firstName' />
-              <input type='hidden' name='lastName' />
-              <input type='hidden' name='sex' />
-              <input type='hidden' name='cpf' />
-              <input type='hidden' name='rg' />
-              <input type='hidden' name='email' />
-              <input type='hidden' name='password' />
-              <input type='hidden' name='token' />
-              <input type='hidden' name='postalCode' />
-              <input type='hidden' name='uf' />
-              <input type='hidden' name='city' />
-              <input type='hidden' name='district' />
-              <input type='hidden' name='addressNumber' />
-              <input type='hidden' name='complement' />
-              <input type='hidden' name='statusCode' />
 
               <div className='row'>
                 <div className='col-md-6 text-center text-md-start'>

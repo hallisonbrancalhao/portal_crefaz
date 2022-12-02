@@ -39,17 +39,17 @@ export const useApi = () => ({
 
     const response = await api.post('employee/authenticate', employee_login, employee_conf);
 
-    if (response.status !== 200) {
-      return alert("Falha no login");
+    if (response.status === 200) {
+      response.data['bearer'] = bearer.data.data.token;
+      return response.data;
     }
 
-    response.data['bearer'] = bearer.data.data.token;
-
+    console.log(response);
     return response.data;
   },
 
   signout: async () => {
-    localStorage.removeItem('bearer');
+    localStorage.clear();
   },
 
   savedata: async (data: string) => {
@@ -63,7 +63,6 @@ export const useApi = () => ({
       }
     }
     var JSONdata = JSON.parse(data);
-    console.log("Dados enviados: ", JSONdata)
     const response = await api.put(`employee/${JSONdata.id}`, JSONdata, put_conf)
     if (response) {
       return true;
@@ -81,8 +80,9 @@ export const useApi = () => ({
         "Authorization": `Bearer ${bearer}`,
       }
     }
+
     var JSONdata = JSON.parse(data);
-    const response = await api.put(`employee/document/${JSONdata.id}`, JSONdata, put_conf)
+    const response = await api.post(`employee/document/${JSONdata.employeeId}`, JSONdata, put_conf)
     if (response) {
       return true;
     }
