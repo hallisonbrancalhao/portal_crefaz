@@ -1,67 +1,21 @@
-import React, { useState, FormEvent } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React from 'react'
 import "../index.css";
 import "./profile.css";
 import { ReactComponent as IconMenu } from '../../icons/seta-direita.svg';
+import { ReactComponent as IconSave } from '../../icons/save.svg';
 import profile_image from '../../assets/profile_image.png';
+import useProfileHook from '../../hooks/profileHook';
 
 const Profile = () => {
-  const navigate = useNavigate();
-  const [image, setImage] = useState('');
-
-  const [nome, setNome] = useState('');
-  const [endereco, setEndereco] = useState('');
-  const [telefone, setTelefone] = useState('');
-  const [departamento, setDepartamento] = useState('');
-  const [estadoCivil, setEstadoCivil] = useState('');
-  const [numeroFilhos, setNumFilhos] = useState('');
-  const [dataNascimento, setDataNascimento] = useState('');
-  const [perfilPessoal, setPerfilPessoal] = useState('');
-
-  const handleEnviar = () => {
-    profileData.nome = nome;
-    profileData.endereco = endereco;
-    profileData.telefone = telefone;
-    profileData.departamento = departamento;
-    profileData.estadoCivil = estadoCivil;
-    profileData.numeroFilhos = numeroFilhos;
-    profileData.dataNascimento = dataNascimento;
-    profileData.perfilPessoal = perfilPessoal;
-    profileData.imagemPerfil = image;
-
-    localStorage.setItem('profileData', JSON.stringify(profileData));
-
-    const responseProfileData = localStorage.getItem('profileData');
-    console.log("responseProfileData: ", responseProfileData)
-
-    navigate('/cracha');
-  }
-
-  const convertImage = (e: FormEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement;
-
-    let file: File = (target.files as FileList)[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-      setImage(`${reader.result}`);
-    };
-    reader.onerror = function (error) {
-      console.log('Error: ', error);
-    };
-  };
-
-  const profileData = {
-    "nome": nome,
-    "endereco": endereco,
-    "telefone": telefone,
-    "departamento": departamento,
-    "estadoCivil": estadoCivil,
-    "numeroFilhos": numeroFilhos,
-    "dataNascimento": dataNascimento,
-    "perfilPessoal": perfilPessoal,
-    "imagemPerfil": image
-  };
+  const {
+    image,
+    convertImage,
+    handleDisable,
+    formState,
+    setFormState,
+    handleAvancar,
+    handleSubmit,
+  } = useProfileHook();
 
   return (
 
@@ -74,104 +28,170 @@ const Profile = () => {
               : (<img className="img-fluid px-5 mb-4" src={profile_image} alt="Imagem de perfil" />)
             }
           </div>
-          <label className='btn btn-secondary'>
+          <label htmlFor='fileUpload' className='btn btn-secondary'>
             <span className='px-3'>Carregar <span className="d-inline-flex d-sm-none d-md-none d-lg-inline-flex">foto</span></span>
-            <input className='form-control' type="file" id='fileUpload' onChange={(e) => convertImage(e)} />
+            <input name='fileUpload' className='form-control' type="file" id='fileUpload' onChange={(e) => convertImage(e)} />
           </label>
         </div>
         <div className="col-md-8 d-flex justify-content-center">
           <div className='inputs transition mt-5 mx-5'>
             <h1 className='tiitle'>Perfil do colaborador</h1>
-            <form className='text-start'>
+            <form
+              className='text-start'
+              id='profileEmployee'
+              method='POST'
+              encType='multipart/form-data'
+              onSubmit={handleSubmit}
+            >
 
-              <label className='px-3 pt-4 pb-0'><p className="label-input">Nome<span>*</span></p></label>
+              <label htmlFor='fullName' className='px-3 pt-4 pb-0'><p className="label-input">Nome<span>*</span></p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={nome}
-                onChange={e => setNome(e.target.value)}
+                value={formState.fullName || undefined}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    fullName: event.currentTarget.value
+                  })
+                }
                 placeholder="Exemplo: João da Silva"
+                name='fullName'
               />
 
-              <label className='px-3 pt-2'><p className="label-input">Endereço<span>*</span></p></label>
+              <label htmlFor='adress' className='px-3 pt-2'><p className="label-input">Endereço<span>*</span></p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={endereco}
-                onChange={e => setEndereco(e.target.value)}
+                value={formState.address || undefined}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    address: event.currentTarget.value
+                  })
+                }
                 placeholder="Exemplo: Av. Duque de Caxias, 882, Sala 503 - Maringá, PR"
+                name='address'
               />
 
-              <label className='px-3 pt-2'><p className="label-input">Telefone<span>*</span></p></label>
+              <label htmlFor='phone' className='px-3 pt-2'><p className="label-input">Telefone<span>*</span></p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={telefone}
-                onChange={e => setTelefone(e.target.value)}
+                value={formState.phone || undefined}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    phone: event.currentTarget.value
+                  })
+                }
                 placeholder="(___) ___-____"
+                name='phone'
               />
 
-              <label className='px-3 pt-2'><p className="label-input">Departamento<span>*</span></p></label>
+              <label htmlFor='department' className='px-3 pt-2'><p className="label-input">Departamento<span>*</span></p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={departamento}
-                onChange={e => setDepartamento(e.target.value)}
+                value={formState.department || undefined}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    department: event.currentTarget.value
+                  })
+                }
                 placeholder="Exemplo: Marketing"
+                name='department'
               />
 
-              <label className='px-3 pt-2'><p className="label-input">Estado Civil<span>*</span></p></label>
+              <label htmlFor='maritalStatus' className='px-3 pt-2'><p className="label-input">Estado Civil<span>*</span></p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={estadoCivil}
-                onChange={e => setEstadoCivil(e.target.value)}
+                value={formState.maritalStatus || undefined}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    maritalStatus: event.currentTarget.value
+                  })
+                }
                 placeholder="Exemplo: Solteiro, Casado, Divorciado"
+                name='maritalStatus'
               />
 
-              <label className='px-3 pt-2'><p className="label-input">Numero de Filhos<span>*</span></p></label>
+              <label htmlFor='numberChildren' className='px-3 pt-2'><p className="label-input">Numero de Filhos<span>*</span></p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={numeroFilhos}
-                onChange={e => setNumFilhos(e.target.value)}
+                value={formState.numberChildren || undefined}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    numberChildren: event.currentTarget.value
+                  })
+                }
                 placeholder="Exemplo: 0,1,2,3"
+                name='numberChildren'
               />
 
-              <label className='px-3 pt-2'><p className="label-input">Data de Nascimento<span>*</span></p></label>
+              <label htmlFor='birthDate' className='px-3 pt-2'><p className="label-input">Data de Nascimento<span>*</span></p></label>
               <input
                 required
                 type="date"
                 className='form-control input-data'
-                value={dataNascimento}
-                onChange={e => setDataNascimento(e.target.value)}
+                value={formState.birthDate || undefined}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    birthDate: event.currentTarget.value
+                  })
+                }
+                name='birthDate'
               />
 
-              <label className='px-3 pt-2'><p className="label-input">Perfil Pessoal</p></label>
+              <label htmlFor='socialNetworks' className='px-3 pt-2'><p className="label-input">Perfil Pessoal</p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={perfilPessoal}
-                onChange={e => setPerfilPessoal(e.target.value)}
+                value={formState.socialNetworks || undefined}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    socialNetworks: event.currentTarget.value
+                  })
+                }
                 placeholder='Exemplo: instagram.com/NomeDoPerfil'
+                name='socialNetworks'
               />
-            </form>
 
-            <button type='submit' className='px-5 py-2 btn btn-secondary mt-4' onClick={() => { handleEnviar() }}>
-              <span>Enviar</span>
-              <IconMenu width="0.6rem" />
-            </button>
+              <div className='row'>
+                <div className='col-md-6 text-center text-md-start'>
+                  <button type='submit' className='py-2 btn btn-secondary mt-4 w-100'>
+                    <IconSave width=".9rem" />
+                    <span className='mx-2'>Salvar</span>
+                  </button>
+                </div>
+                <div className="col-md-6 text-center text-md-end">
+                  <button id='avancar' type='button' className='w-100 py-2 btn btn-secondary mt-4 ms-2'
+                    disabled={handleDisable}
+                    onClick={handleAvancar}>
+                    <span>Avançar</span>
+                    <IconMenu width="0.6rem" />
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
 

@@ -1,51 +1,18 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../contexts/Auth/AuthContext';
+import React from 'react'
 import "../index.css";
 import { ReactComponent as IconMenu } from '../../icons/seta-direita.svg'
+import useLoginHook from '../../hooks/loginHook';
 
 const Login = () => {
-  const navigate = useNavigate();
-  const authAlready = useContext(AuthContext);
-
-  useEffect(() => {
-    if (authAlready.user != null) {
-      navigate('/apresentacao');
-    }
-  }, [])
-
-  const [errorMessage, serErrorMessage] = useState('');
-  const auth = useContext(AuthContext);
-
-  const [login, setEmail] = useState('10037816918');
-  const [password, setPassword] = useState('123456');
-
-  const errorLogin = document.querySelector('.login');
-  const errorPassword = document.querySelector('.password');
-
-  if (errorMessage) {
-    errorLogin?.classList.add('errorLabel')
-    errorPassword?.classList.add('errorLabel')
-  } else if (errorLogin?.classList.contains('errorLabel')) {
-    errorLogin?.classList.remove('errorLabel');
-    errorPassword?.classList.remove('errorLabel');
-  }
-
-  const handleLogin = async () => {
-    if (login && password) {
-
-      try {
-        const isLogged = await auth.signin(login, password);
-
-        if (isLogged) {
-          navigate('/apresentacao');
-        }
-      } catch (error) {
-        serErrorMessage(`Falha ao realizar login, erro: ${error}`);
-      }
-
-    }
-  }
+  const {
+    errorMessage,
+    login,
+    password,
+    handleLogin,
+    setEmail,
+    setPassword,
+    navigate,
+  } = useLoginHook();
 
   return (
     <div className="container">
@@ -75,13 +42,10 @@ const Login = () => {
               <span>Acessar</span>
               <IconMenu width="0.6rem" />
             </button>
-
             <h4 className="sub_title mt-4">Acreditamos em quem faz <span>com a gente.</span></h4>
           </div>
-
         </div>
       </div>
-
     </div>
   )
 }
