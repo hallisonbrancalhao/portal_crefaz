@@ -79,7 +79,7 @@ const Profile = () => {
               <label htmlFor='phone' className='px-3 pt-2'><p className="label-input">Telefone<span>*</span></p></label>
               <input
                 required
-                type="text"
+                type="phone"
                 className='form-control input-data'
                 value={formState.phone || undefined}
                 onChange={(event) =>
@@ -92,6 +92,21 @@ const Profile = () => {
                 name='phone'
               />
 
+              <label htmlFor='phoneContact' className='px-3 pt-2'><p className="label-input">Telefone para contato: (mãe, pai, esposa..)<span>*</span></p></label>
+              <input
+                required
+                type="phone"
+                className='form-control input-data'
+                value={formState.phone || undefined}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    phone: event.currentTarget.value
+                  })
+                }
+                placeholder="(___) ___-____"
+                name='phone'
+              />
               <label htmlFor='department' className='px-3 pt-2'><p className="label-input">Departamento<span>*</span></p></label>
               <input
                 required
@@ -107,7 +122,37 @@ const Profile = () => {
                 placeholder="Exemplo: Marketing"
                 name='department'
               />
+              <label htmlFor='city' className='px-3 pt-2'><p className="label-input">Cidade<span>*</span></p></label>
+              <input
+                required
+                type="text"
+                className='form-control input-data'
+                value={formState.city || undefined}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    city: event.currentTarget.value
+                  })
+                }
+                placeholder="Exemplo: Maringá"
+                name='city'
+              />
 
+              <label htmlFor='uf' className='px-3 pt-2'><p className="label-input">Estado<span>*</span></p></label>
+              <input
+                required
+                type="text"
+                className='form-control input-data'
+                value={formState.uf || undefined}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    uf: event.currentTarget.value
+                  })
+                }
+                placeholder="Exemplo: Paraná"
+                name='uf'
+              />
               <label htmlFor='maritalStatus' className='px-3 pt-2'><p className="label-input">Estado Civil<span>*</span></p></label>
               <input
                 required
