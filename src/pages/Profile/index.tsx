@@ -102,6 +102,7 @@ const Profile = () => {
                   setFormState({
                     ...formState,
                     phoneContact: event.currentTarget.value
+
                   })
                 }
                 placeholder="(___) ___-____"
@@ -128,6 +129,7 @@ const Profile = () => {
                 type="text"
                 className='form-control input-data'
                 value={formState.city}
+
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -144,6 +146,7 @@ const Profile = () => {
                 type="text"
                 className='form-control input-data'
                 value={formState.uf}
+
                 onChange={(event) =>
                   setFormState({
                     ...formState,
