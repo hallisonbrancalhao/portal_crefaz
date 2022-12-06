@@ -18,9 +18,13 @@ export default function useProfileHook() {
         maritalStatus: user.maritalStatus,
         numberChildren: user.numberChildren,
         address: user.address,
+        city: user.city,
+        uf: user.uf,
         department: user.department,
         socialNetworks: user.socialNetworks,
+        typeContract: user.typeContract,
         phone: user.phone,
+        phoneContact: user.phoneContact,
         email: user.email,
         statusCode: user.statusCode,
     })

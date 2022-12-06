@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useApi } from '../../hooks/useApi';
 import { User } from '../../types/User';
 import { AuthContext } from "./AuthContext"
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
-
+    const auth = useContext(AuthContext);
     const [user, setUser] = useState<User | null>(null);
     const api = useApi();
 
@@ -12,13 +12,14 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
         const validateToken = () => {
             const storageData = localStorage.getItem('auth');
             if (storageData) {
-                setUser(JSON.parse(storageData));
+                setUser(JSON.parse(`${storageData}`));
             }
         }
         validateToken();
-    }, [])
+    }, [auth])
 
     const signin = async (login: string, password: string) => {
+
         const response = await api.signin(login, password);
         response.data = response.data[0];
 

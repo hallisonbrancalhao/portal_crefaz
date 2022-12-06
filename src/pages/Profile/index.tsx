@@ -49,7 +49,7 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.fullName || undefined}
+                value={formState.fullName}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -65,7 +65,7 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.address || undefined}
+                value={formState.address}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -79,9 +79,9 @@ const Profile = () => {
               <label htmlFor='phone' className='px-3 pt-2'><p className="label-input">Telefone<span>*</span></p></label>
               <input
                 required
-                type="text"
+                type="phone"
                 className='form-control input-data'
-                value={formState.phone || undefined}
+                value={formState.phone}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -92,12 +92,27 @@ const Profile = () => {
                 name='phone'
               />
 
+              <label htmlFor='phoneContact' className='px-3 pt-2'><p className="label-input">Telefone para contato: (mãe, pai, esposa..)<span>*</span></p></label>
+              <input
+                required
+                type="phone"
+                className='form-control input-data'
+                value={formState.phoneContact}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    phoneContact: event.currentTarget.value
+                  })
+                }
+                placeholder="(___) ___-____"
+                name='phone'
+              />
               <label htmlFor='department' className='px-3 pt-2'><p className="label-input">Departamento<span>*</span></p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.department || undefined}
+                value={formState.department}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -107,13 +122,43 @@ const Profile = () => {
                 placeholder="Exemplo: Marketing"
                 name='department'
               />
+              <label htmlFor='city' className='px-3 pt-2'><p className="label-input">Cidade<span>*</span></p></label>
+              <input
+                required
+                type="text"
+                className='form-control input-data'
+                value={formState.city}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    city: event.currentTarget.value
+                  })
+                }
+                placeholder="Exemplo: Maringá"
+                name='city'
+              />
 
+              <label htmlFor='uf' className='px-3 pt-2'><p className="label-input">Estado<span>*</span></p></label>
+              <input
+                required
+                type="text"
+                className='form-control input-data'
+                value={formState.uf}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    uf: event.currentTarget.value
+                  })
+                }
+                placeholder="Exemplo: Paraná"
+                name='uf'
+              />
               <label htmlFor='maritalStatus' className='px-3 pt-2'><p className="label-input">Estado Civil<span>*</span></p></label>
               <input
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.maritalStatus || undefined}
+                value={formState.maritalStatus}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -129,7 +174,7 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.numberChildren || undefined}
+                value={formState.numberChildren}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -145,7 +190,7 @@ const Profile = () => {
                 required
                 type="date"
                 className='form-control input-data'
-                value={formState.birthDate || undefined}
+                value={formState.birthDate}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -160,7 +205,7 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.socialNetworks || undefined}
+                value={formState.socialNetworks}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -170,6 +215,41 @@ const Profile = () => {
                 placeholder='Exemplo: instagram.com/NomeDoPerfil'
                 name='socialNetworks'
               />
+
+
+              <div className="text-start form-check form-check-inline mt-3">
+                <input className="form-check-input"
+                  required
+                  type="radio"
+                  name="typeContract"
+                  id="pj"
+                  value="PJ"
+                  onChange={(event) =>
+                    setFormState({
+                      ...formState,
+                      typeContract: event.currentTarget.value
+                    })
+                  }
+                />
+                <label className="form-check-label label-input" htmlFor="pj">Pessoa Jurídica (PJ)</label>
+              </div>
+
+              <div className="text-start form-check form-check-inline mt-3">
+                <input className="form-check-input"
+                  required
+                  type="radio"
+                  name="typeContract"
+                  id="clt"
+                  value="CLT"
+                  onChange={(event) =>
+                    setFormState({
+                      ...formState,
+                      typeContract: event.currentTarget.value
+                    })
+                  }
+                />
+                <label className="form-check-label label-input" htmlFor="CLT">Pessoa Física (CLT)</label>
+              </div>
 
               <div className='row'>
                 <div className='col-md-6 text-center text-md-start'>
