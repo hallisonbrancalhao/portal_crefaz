@@ -21,8 +21,6 @@ export default function useProfileHook() {
         city: user.city,
         uf: user.uf,
         department: user.department,
-        uf: user.uf,
-        city: user.city,
         socialNetworks: user.socialNetworks,
         typeContract: user.typeContract,
         phone: user.phone,
