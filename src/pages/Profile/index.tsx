@@ -49,7 +49,7 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.fullName || undefined}
+                value={formState.fullName}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -65,7 +65,7 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.address || undefined}
+                value={formState.address}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -81,7 +81,7 @@ const Profile = () => {
                 required
                 type="phone"
                 className='form-control input-data'
-                value={formState.phone || undefined}
+                value={formState.phone}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -97,11 +97,12 @@ const Profile = () => {
                 required
                 type="phone"
                 className='form-control input-data'
-                value={formState.phone || undefined}
+                value={formState.phoneContact}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
-                    phone: event.currentTarget.value
+                    phoneContact: event.currentTarget.value
+
                   })
                 }
                 placeholder="(___) ___-____"
@@ -112,7 +113,7 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.department || undefined}
+                value={formState.department}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -127,7 +128,8 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.city || undefined}
+                value={formState.city}
+
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -143,7 +145,8 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.uf || undefined}
+                value={formState.uf}
+
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -158,7 +161,7 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.maritalStatus || undefined}
+                value={formState.maritalStatus}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -174,7 +177,7 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.numberChildren || undefined}
+                value={formState.numberChildren}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -190,7 +193,7 @@ const Profile = () => {
                 required
                 type="date"
                 className='form-control input-data'
-                value={formState.birthDate || undefined}
+                value={formState.birthDate}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -205,7 +208,7 @@ const Profile = () => {
                 required
                 type="text"
                 className='form-control input-data'
-                value={formState.socialNetworks || undefined}
+                value={formState.socialNetworks}
                 onChange={(event) =>
                   setFormState({
                     ...formState,
@@ -215,6 +218,41 @@ const Profile = () => {
                 placeholder='Exemplo: instagram.com/NomeDoPerfil'
                 name='socialNetworks'
               />
+
+
+              <div className="text-start form-check form-check-inline mt-3">
+                <input className="form-check-input"
+                  required
+                  type="radio"
+                  name="typeContract"
+                  id="pj"
+                  value="PJ"
+                  onChange={(event) =>
+                    setFormState({
+                      ...formState,
+                      typeContract: event.currentTarget.value
+                    })
+                  }
+                />
+                <label className="form-check-label label-input" htmlFor="pj">Pessoa Jurídica (PJ)</label>
+              </div>
+
+              <div className="text-start form-check form-check-inline mt-3">
+                <input className="form-check-input"
+                  required
+                  type="radio"
+                  name="typeContract"
+                  id="clt"
+                  value="CLT"
+                  onChange={(event) =>
+                    setFormState({
+                      ...formState,
+                      typeContract: event.currentTarget.value
+                    })
+                  }
+                />
+                <label className="form-check-label label-input" htmlFor="CLT">Pessoa Física (CLT)</label>
+              </div>
 
               <div className='row'>
                 <div className='col-md-6 text-center text-md-start'>

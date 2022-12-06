@@ -65,7 +65,7 @@ const Badge = () => {
                   required
                   type="text"
                   className='form-control input-data'
-                  value={formState.fullName || undefined}
+                  value={formState.fullName}
                   onChange={(event) =>
                     setFormState({
                       ...formState,
@@ -81,7 +81,7 @@ const Badge = () => {
                   required
                   type="email"
                   className='form-control input-data'
-                  value={formState.email || undefined}
+                  value={formState.email}
                   onChange={(event) =>
                     setFormState({
                       ...formState,
@@ -97,7 +97,7 @@ const Badge = () => {
                   required
                   type="text"
                   className='form-control input-data'
-                  value={formState.phone || undefined}
+                  value={formState.phone}
                   onChange={(event) =>
                     setFormState({
                       ...formState,

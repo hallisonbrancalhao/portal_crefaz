@@ -20,8 +20,10 @@ export type BodyType = {
     hireDate?: string;
     socialNetworks?: string;
     phone?: string;
+    phoneContact?: string;
     email?: string;
     password?: string;
     token?: string;
     statusCode?: string;
+    typeContract?: string;
 }

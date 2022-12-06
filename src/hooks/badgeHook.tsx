@@ -18,12 +18,12 @@ export default function useBadgeHook() {
     useEffect(() => {
         const data = localStorage.getItem('auth');
         if (data) {
-            setFormState(JSON.parse(data));
+            setFormState(JSON.parse(`${data}`));
         }
         if (!image) {
             setImage(`${localStorage.getItem('profileImage')}`);
         }
-    }, [setFormState, image])
+    }, [setFormState, image, auth])
 
     const convertImage = (e: FormEvent<HTMLInputElement>) => {
         const target = e.target as HTMLInputElement;
@@ -48,8 +48,9 @@ export default function useBadgeHook() {
             description: "Crachá",
             file: `${localStorage.getItem('profileImageSend')}`,
         };
+
         const responseImg = await auth.sendimage(JSON.stringify(body));
-        const responseData = await auth.savedata(JSON.stringify(formState));
+        const responseData = localStorage.getItem(JSON.stringify(formState));
 
         if (!!responseImg && !!responseData) {
             window.location.href = 'https://rodrigomartelli.humhub.com/s/espaco-de-boas-vindas/'
