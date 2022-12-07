@@ -6,8 +6,17 @@ export const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const auth = useContext(AuthContext);
 
   if (!auth.user) {
+    window.location.href = '/';
     return <Login />;
   }
 
+  const now = new Date();
+  const expires = new Date(`${localStorage.getItem('expires')}`);
+
+  if (`${now.getTime()}` > `${expires.getTime()}`) {
+    localStorage.clear();
+    window.location.href = '/';
+    return <Login />;
+  }
   return children;
 }

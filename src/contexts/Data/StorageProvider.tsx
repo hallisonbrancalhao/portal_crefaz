@@ -16,7 +16,7 @@ export default function StorageProvider({ children }: { children: JSX.Element })
             return null;
         }
 
-        return item?.value;
+        return item.value;
     }
 
     const set = (key: string, data: string) => {

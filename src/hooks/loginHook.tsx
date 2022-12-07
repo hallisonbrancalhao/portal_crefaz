@@ -16,8 +16,8 @@ export default function useLoginHook() {
     const [errorMessage, serErrorMessage] = useState('');
     const auth = useContext(AuthContext);
 
-    const [login, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [login, setEmail] = useState('10037816918');
+    const [password, setPassword] = useState('123456');
 
     const errorLogin = document.querySelector('.login');
     const errorPassword = document.querySelector('.password');

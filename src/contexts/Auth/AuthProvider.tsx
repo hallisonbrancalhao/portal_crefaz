@@ -12,13 +12,13 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
     useEffect(() => {
         const validateToken = () => {
-            const storageData = storage.get('auth');
+            const storageData = localStorage.getItem('auth');
             if (storageData) {
                 setUser(JSON.parse(`${storageData}`));
             }
         }
         validateToken();
-    }, [auth])
+    }, [auth, storage])
 
     const signin = async (login: string, password: string) => {
 

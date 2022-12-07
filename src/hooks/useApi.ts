@@ -18,6 +18,7 @@ export const useApi = () => ({
 
     const bearer = await api.post('/login/auth', admin_login);
     localStorage.setItem('token', `${bearer.data.data.token}`);
+    localStorage.setItem('expires', `${bearer.data.data.expires}`);
 
     if (bearer.status !== 200) {
       return alert("Falha de autenticação com a API");
