@@ -40,6 +40,7 @@ export default function useBadgeHook() {
 
     const handleSend = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        console.log("enviar")
         const imageConvert = image.split(',', 2);
         localStorage.setItem('profileImageSend', `${imageConvert[1]}`);
 
@@ -50,7 +51,9 @@ export default function useBadgeHook() {
         };
 
         const responseImg = await auth.sendimage(JSON.stringify(body));
-        const responseData = localStorage.getItem(JSON.stringify(formState));
+        console.log("responseImg", responseImg)
+        const responseData = JSON.stringify(formState);
+        console.log("responseData", responseData)
 
         if (!!responseImg && !!responseData) {
             window.location.href = 'https://rodrigomartelli.humhub.com/s/espaco-de-boas-vindas/'

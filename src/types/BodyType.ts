@@ -1,5 +1,5 @@
 export type BodyType = {
-    id: string;
+    id?: string;
     firstName?: string;
     lastName?: string;
     fullName?: string;
