@@ -65,10 +65,7 @@ export const useApi = () => ({
     }
     var JSONdata = JSON.parse(data);
     const response = await api.put(`employee/${JSONdata.id}`, JSONdata, put_conf)
-    if (response) {
-      return true;
-    }
-    return false;
+    return response.status;
   },
 
   sendimage: async (data: string) => {
@@ -84,9 +81,6 @@ export const useApi = () => ({
 
     var JSONdata = JSON.parse(data);
     const response = await api.post(`employee/document/${JSONdata.employeeId}`, JSONdata, put_conf)
-    if (response) {
-      return true;
-    }
-    return false;
+    return response.data;
   }
 })
