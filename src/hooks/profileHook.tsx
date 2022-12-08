@@ -10,6 +10,9 @@ export default function useProfileHook() {
     const userStr = localStorage.getItem('auth');
     const user = JSON.parse(`${userStr}`);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [error, setError] = useState(false);
 
     const [formState, setFormState] = useState<BodyType>({
         id: user.id,
@@ -29,20 +32,6 @@ export default function useProfileHook() {
         statusCode: user.statusCode,
     })
 
-    const handleAvancar = () => {
-        navigate('/cracha');
-    }
-
-    const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        localStorage.setItem('auth', JSON.stringify(formState));
-        const status = await auth.savedata(JSON.stringify(formState));
-        if (status) {
-            setHandleDisable(false);
-        }
-
-    }, [formState, auth]);
-
     const convertImage = (e: FormEvent<HTMLInputElement>) => {
         const target = e.target as HTMLInputElement;
 
@@ -59,8 +48,30 @@ export default function useProfileHook() {
         localStorage.setItem('profileImage', image);
     };
 
+    const handleAvancar = () => {
+        navigate('/cracha');
+    }
+
+    const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setLoading(true);
+        localStorage.setItem('auth', JSON.stringify(formState));
+        const status = await auth.savedata(JSON.stringify(formState));
+        if (status === 200) {
+            setHandleDisable(false);
+            setSuccess(true);
+            setError(false);
+        } else {
+            setError(true);
+            setSuccess(false);
+        }
+        setLoading(false);
+    }, [formState, auth]);
 
     return {
+        error,
+        success,
+        loading,
         image,
         convertImage,
         handleDisable,

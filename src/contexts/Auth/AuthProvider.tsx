@@ -43,19 +43,13 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     }
 
     const savedata = async (data: string) => {
-        const response = await api.savedata(data);
-        if (response) {
-            return true
-        }
-        return false;
+        const status = await api.savedata(data);
+        return status;
     }
 
     const sendimage = async (data: string) => {
         const response = await api.sendimage(data);
-        if (response) {
-            return true;
-        }
-        return false;
+        return response.code;
     }
 
     return (

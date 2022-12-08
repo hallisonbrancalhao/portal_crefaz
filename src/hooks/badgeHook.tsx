@@ -7,6 +7,10 @@ export default function useBadgeHook() {
     const userStr = localStorage.getItem('auth');
     const user = JSON.parse(`${userStr}`);
     const [image, setImage] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [error, setError] = useState(false);
+
 
     const [formState, setFormState] = useState<BodyType>({
         id: user.id,
@@ -40,7 +44,7 @@ export default function useBadgeHook() {
 
     const handleSend = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("enviar")
+        setLoading(true);
         const imageConvert = image.split(',', 2);
         localStorage.setItem('profileImageSend', `${imageConvert[1]}`);
 
@@ -50,15 +54,23 @@ export default function useBadgeHook() {
             file: `${localStorage.getItem('profileImageSend')}`,
         };
 
-        const responseImg = await auth.sendimage(JSON.stringify(body));
-        const responseData = JSON.stringify(formState);
+        const res = await auth.sendimage(JSON.stringify(body));
 
-        if (!!responseImg && !!responseData) {
+        if (res === 200) {
+            setError(false);
             window.location.href = 'https://rodrigomartelli.humhub.com/s/espaco-de-boas-vindas/'
+        } else {
+            console.log(res);
+            setLoading(false);
+            setError(true);
         }
+        setLoading(false);
     }, [formState, auth, image]);
 
     return {
+        error,
+        success,
+        loading,
         convertImage,
         image,
         formState,

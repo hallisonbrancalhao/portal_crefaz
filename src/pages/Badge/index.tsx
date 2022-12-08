@@ -6,9 +6,15 @@ import { ReactComponent as NextIcon } from '../../icons/seta-direita.svg'
 import { ReactComponent as UploadIcon } from '../../icons/upload.svg'
 import { ReactComponent as ImagemIcon } from '../../icons/user-regular.svg'
 import useBadgeHook from '../../hooks/badgeHook';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Alert from '@mui/material/Alert';
+
 
 const Badge = () => {
   const {
+    error,
+    success,
+    loading,
     convertImage,
     image,
     formState,
@@ -119,11 +125,27 @@ const Badge = () => {
                   </div>
                   <div className="col-12 col-md-6 text-end mt-4">
                     <div className="d-grid gap-2">
-                      <button className='btn btn-secondary' type='submit'>
-                        <span>Enviar</span>
-                        <NextIcon width="0.6rem" />
-                      </button>
+                      <LoadingButton
+                        className='btn btn-secondary botao-salvar'
+                        type='submit'
+                        loading={loading}
+                        loadingPosition="end"
+                        endIcon={<NextIcon width="0.6rem" />}
+                        variant="contained"
+                      >
+                        Salvar
+                      </LoadingButton>
                     </div>
+                    {error && (
+                      <Alert variant="outlined" severity="error" className='mt-2'>
+                        Não foi possível salvar seus dados.
+                      </Alert>
+                    )}
+                    {success && (
+                      <Alert variant="outlined" severity="success" className='mt-2'>
+                        Seus dados foram salvos com sucesso!
+                      </Alert>
+                    )}
                   </div>
                 </div>
               </form>

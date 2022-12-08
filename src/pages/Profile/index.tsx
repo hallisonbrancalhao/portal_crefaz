@@ -2,12 +2,17 @@ import React from 'react'
 import "../index.css";
 import "./profile.css";
 import { ReactComponent as IconMenu } from '../../icons/seta-direita.svg';
-import { ReactComponent as IconSave } from '../../icons/save.svg';
 import profile_image from '../../assets/profile_image.png';
 import useProfileHook from '../../hooks/profileHook';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
+import Alert from '@mui/material/Alert';
 
 const Profile = () => {
   const {
+    error,
+    success,
+    loading,
     image,
     convertImage,
     handleDisable,
@@ -20,31 +25,30 @@ const Profile = () => {
   return (
 
     <div className="container">
-      <div className="row text-center mb-5">
-        <div className="col-md-3 transition mt-5">
-          <div className="cracha-card_imagem__div">
-            {image
-              ? (<img src={image} className='img_profile img-fluid mb-4' alt='imagem de perfil' />)
-              : (<img className="img-fluid px-5 mb-4" src={profile_image} alt="Imagem de perfil" />)
-            }
+      <form
+        id='profileEmployee'
+        method='POST'
+        encType='multipart/form-data'
+        onSubmit={handleSubmit}
+      >
+        <div className="row mb-5">
+          <div className="text-center col-md-3 transition mt-5">
+            <div className="cracha-card_imagem__div">
+              {image
+                ? (<img src={image} className='img_profile img-fluid mb-4' alt='imagem de perfil' />)
+                : (<img className="img-fluid px-5 mb-4" src={profile_image} alt="Imagem de perfil" />)
+              }
+            </div>
+            <label htmlFor='fileUpload' className='btn btn-secondary'>
+              <span className='px-3'>Carregar <span className="d-inline-flex d-sm-none d-md-none d-lg-inline-flex">foto</span></span>
+              <input required name='fileUpload' className='form-control' type="file" id='fileUpload' onChange={(e) => convertImage(e)} />
+            </label>
           </div>
-          <label htmlFor='fileUpload' className='btn btn-secondary'>
-            <span className='px-3'>Carregar <span className="d-inline-flex d-sm-none d-md-none d-lg-inline-flex">foto</span></span>
-            <input name='fileUpload' className='form-control' type="file" id='fileUpload' onChange={(e) => convertImage(e)} />
-          </label>
-        </div>
-        <div className="col-md-8 d-flex justify-content-center">
-          <div className='inputs transition mt-5 mx-5'>
-            <h1 className='tiitle'>Perfil do colaborador</h1>
-            <form
-              className='text-start'
-              id='profileEmployee'
-              method='POST'
-              encType='multipart/form-data'
-              onSubmit={handleSubmit}
-            >
+          <div className="col-md-8 d-flex justify-content-center">
+            <div className='inputs transition mt-5 mx-5'>
+              <h1 className='tiitle'>Perfil do colaborador</h1>
 
-              <label htmlFor='fullName' className='px-3 pt-4 pb-0'><p className="label-input">Nome<span>*</span></p></label>
+              <label htmlFor='fullName' className='px-3 pt-4 pb-0 text-start'><p className="label-input">Nome<span>*</span></p></label>
               <input
                 required
                 type="text"
@@ -219,50 +223,68 @@ const Profile = () => {
                 name='socialNetworks'
               />
 
+              <div className="text-start mx-2">
+                <div className="text-start form-check form-check-inline mt-3">
+                  <input className="form-check-input"
+                    required
+                    type="radio"
+                    name="typeContract"
+                    id="pj"
+                    value="PJ"
+                    onChange={(event) =>
+                      setFormState({
+                        ...formState,
+                        typeContract: event.currentTarget.value
+                      })
+                    }
+                  />
+                  <label className="form-check-label label-input" htmlFor="pj">Pessoa Jurídica (PJ)</label>
+                </div>
 
-              <div className="text-start form-check form-check-inline mt-3">
-                <input className="form-check-input"
-                  required
-                  type="radio"
-                  name="typeContract"
-                  id="pj"
-                  value="PJ"
-                  onChange={(event) =>
-                    setFormState({
-                      ...formState,
-                      typeContract: event.currentTarget.value
-                    })
-                  }
-                />
-                <label className="form-check-label label-input" htmlFor="pj">Pessoa Jurídica (PJ)</label>
+                <div className="text-start form-check form-check-inline mt-3">
+                  <input className="form-check-input"
+                    required
+                    type="radio"
+                    name="typeContract"
+                    id="clt"
+                    value="CLT"
+                    onChange={(event) =>
+                      setFormState({
+                        ...formState,
+                        typeContract: event.currentTarget.value
+                      })
+                    }
+                  />
+                  <label className="form-check-label label-input" htmlFor="CLT">Pessoa Física (CLT)</label>
+                </div>
               </div>
 
-              <div className="text-start form-check form-check-inline mt-3">
-                <input className="form-check-input"
-                  required
-                  type="radio"
-                  name="typeContract"
-                  id="clt"
-                  value="CLT"
-                  onChange={(event) =>
-                    setFormState({
-                      ...formState,
-                      typeContract: event.currentTarget.value
-                    })
-                  }
-                />
-                <label className="form-check-label label-input" htmlFor="CLT">Pessoa Física (CLT)</label>
-              </div>
+              {error && (
+                <Alert variant="outlined" severity="error" className='mt-2'>
+                  Não foi possível salvar seus dados.
+                </Alert>
+              )}
+              {success && (
+                <Alert variant="outlined" severity="success" className='mt-2'>
+                  Seus dados foram salvos com sucesso!
+                </Alert>
+              )}
 
               <div className='row'>
                 <div className='col-md-6 text-center text-md-start'>
-                  <button type='submit' className='py-2 btn btn-secondary mt-4 w-100'>
-                    <IconSave width=".9rem" />
-                    <span className='mx-2'>Salvar</span>
-                  </button>
+                  <LoadingButton
+                    className='py-2 btn botao-salvar mt-4 w-100'
+                    type='submit'
+                    loading={loading}
+                    loadingPosition="start"
+                    startIcon={<SaveIcon />}
+                    variant="contained"
+                  >
+                    Salvar
+                  </LoadingButton>
                 </div>
                 <div className="col-md-6 text-center text-md-end">
-                  <button id='avancar' type='button' className='w-100 py-2 btn btn-secondary mt-4 ms-2'
+                  <button id='avancar' type='button' className='w-100 py-2 btn btn-success mt-4 ms-2'
                     disabled={handleDisable}
                     onClick={handleAvancar}>
                     <span>Avançar</span>
@@ -270,11 +292,11 @@ const Profile = () => {
                   </button>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
-        </div>
-      </div >
-    </div >
+        </div >
+      </form>
+    </div>
   )
 }
 

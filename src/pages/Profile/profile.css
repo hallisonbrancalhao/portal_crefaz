@@ -28,3 +28,20 @@ p>span {
     font-weight: 400;
     color: var(--color-azul-2);
 }
+
+.botao-salvar {
+    background-color: var(--color-laranja-2) !important;
+    border-radius: 20px !important;
+    box-shadow: none !important;
+    border: none;
+}
+
+
+.botao-salvar:hover {
+    box-shadow: none !important;
+    background-color: var(--color-laranja-3) !important;
+    transition-duration: 5ms !important;
+    transition-timing-function: ease-in-out !important;
+    transition-delay: 0s !important;
+    transition-property: all !important;
+}

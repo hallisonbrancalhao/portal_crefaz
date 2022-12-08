@@ -9,7 +9,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './contexts/Auth/AuthProvider';
 import GlobalStyles from './styles/global';
 
-
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
