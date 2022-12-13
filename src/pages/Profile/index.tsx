@@ -10,6 +10,7 @@ import Alert from '@mui/material/Alert';
 
 const Profile = () => {
   const {
+    errorImage,
     error,
     success,
     loading,
@@ -41,7 +42,12 @@ const Profile = () => {
             </div>
             <label htmlFor='fileUpload' className='btn btn-secondary'>
               <span className='px-3'>Carregar <span className="d-inline-flex d-sm-none d-md-none d-lg-inline-flex">foto</span></span>
-              <input required name='fileUpload' className='form-control' type="file" id='fileUpload' onChange={(e) => convertImage(e)} />
+              <input
+                name='fileUpload'
+                className='form-control'
+                type="file"
+                id='fileUpload'
+                onChange={(e) => convertImage(e)} />
             </label>
           </div>
           <div className="col-md-8 d-flex justify-content-center">
@@ -270,8 +276,14 @@ const Profile = () => {
                 </Alert>
               )}
 
+              {errorImage && (
+                <Alert variant="outlined" severity="error" className='mt-2'>
+                  Selecione uma imagem antes de prosseguir.
+                </Alert>
+              )}
+
               <div className='row'>
-                <div className='col-md-6 text-center text-md-start'>
+                <div className='col-md-6 text-center'>
                   <LoadingButton
                     className='py-2 btn botao-salvar mt-4 w-100'
                     type='submit'
@@ -283,8 +295,8 @@ const Profile = () => {
                     Salvar
                   </LoadingButton>
                 </div>
-                <div className="col-md-6 text-center text-md-end">
-                  <button id='avancar' type='button' className='w-100 py-2 btn btn-success mt-4 ms-2'
+                <div className="col-md-6 text-center">
+                  <button id='avancar' type='button' className='w-100 py-2 btn btn-success mt-4'
                     disabled={handleDisable}
                     onClick={handleAvancar}>
                     <span>Avançar</span>

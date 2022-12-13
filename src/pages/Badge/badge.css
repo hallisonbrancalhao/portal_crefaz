@@ -15,6 +15,7 @@ input[type='file'] {
 }
 
 .cracha-card {
+    width: 240px;
     text-align: center;
     align-items: center;
     background-color: var(--color-azul);
@@ -42,7 +43,7 @@ hr.solid {
 }
 
 .cracha-subtitle {
-    font-size: 24px;
+    font-size: 16px;
     padding: 1rem .5rem;
     color: var(--color-azul);
 }

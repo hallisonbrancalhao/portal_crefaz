@@ -9,7 +9,6 @@ import useBadgeHook from '../../hooks/badgeHook';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Alert from '@mui/material/Alert';
 
-
 const Badge = () => {
   const {
     error,
@@ -26,10 +25,9 @@ const Badge = () => {
     <div className="container">
       <div className="row align-items-end text-center mb-5 ">
         <div className="col-md-3 offset-md-1 text-start align-items-between px-5 ">
-          <h2 className='cracha-subtitle'>O Lorem Ipsum é
-            um texto modelo da
-            indústria tipográfica
-            e de impressão</h2>
+          <h2 className='cracha-subtitle'>Preencha os campos de identificação, informando seu nome e sobrenome, telefone e seu endereço de e-mail.<br /><br />
+            Faça o upload de uma foto, mas fique atento à qualidade dela.<br /><br />
+            Caso tenha dúvidas, assista o tutorial ao lado</h2>
           <div className="cracha-card px-4 py-3 mt-5">
             <div className="pt-3 px-4">
               <div className="cracha-card_imagem__div">

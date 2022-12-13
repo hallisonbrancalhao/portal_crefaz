@@ -1,24 +1,22 @@
 import { useEffect, useState, useContext } from 'react';
 import { useApi } from '../../hooks/useApi';
 import { User } from '../../types/User';
-import { StorageContext } from '../Data/StorageContext';
 import { AuthContext } from "./AuthContext"
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const auth = useContext(AuthContext);
-    const storage = useContext(StorageContext);
     const [user, setUser] = useState<User | null>(null);
     const api = useApi();
 
     useEffect(() => {
         const validateToken = () => {
-            const storageData = localStorage.getItem('auth');
+            const storageData = localStorage.getItem('user');
             if (storageData) {
                 setUser(JSON.parse(`${storageData}`));
             }
         }
         validateToken();
-    }, [auth, storage])
+    }, [auth])
 
     const signin = async (login: string, password: string) => {
 
@@ -29,17 +27,17 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
             return false;
         }
 
-        let user = response.data;
-        user['bearer'] = response.bearer;
-
-        setUser(user);
-        localStorage.setItem('auth', JSON.stringify(response.data))
+        let dataUser = {
+            id: response.data.id,
+            name: response.data.fullName,
+            email: response.data.email,
+            cpf: response.data.cpf,
+            bearer: response.bearer
+        };
+        setUser(dataUser);
+        localStorage.setItem('user', JSON.stringify(dataUser));
+        localStorage.setItem('auth', JSON.stringify(response.data));
         return true;
-    }
-
-    const signout = async () => {
-        await api.signout();
-        setUser(null);
     }
 
     const savedata = async (data: string) => {
@@ -53,7 +51,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, signin, signout, savedata, sendimage }}>
+        <AuthContext.Provider value={{ user, signin, savedata, sendimage }}>
             {children}
         </AuthContext.Provider>
     );

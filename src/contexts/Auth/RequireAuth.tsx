@@ -1,11 +1,20 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Login } from '../../pages';
 import { AuthContext } from './AuthContext';
 
 export const RequireAuth = ({ children }: { children: JSX.Element }) => {
+
   const auth = useContext(AuthContext);
 
-  if (!auth.user) {
+  useEffect(() => {
+    const dataUser = localStorage.getItem('user');
+    if (!!dataUser) {
+      auth.user = JSON.parse(`${dataUser}`);
+    }
+  }, [auth]);
+
+
+  if (!localStorage.getItem('user')) {
     window.location.href = '/';
     return <Login />;
   }
