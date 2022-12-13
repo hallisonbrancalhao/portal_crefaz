@@ -139,12 +139,14 @@ const Badge = () => {
                         Não foi possível salvar seus dados.
                       </Alert>
                     )}
-                    {success && (
+                  </div>
+                  {success && (
+                    <div className='col-12 mt-2'>
                       <Alert variant="outlined" severity="success" className='mt-2'>
                         Seus dados foram salvos com sucesso!
                       </Alert>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               </form>
             </div>

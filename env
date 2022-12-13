@@ -1,3 +1,4 @@
 REACT_APP_URL_API=link_api
 REACT_APP_ADMIN_EMAIL=admin_user
 REACT_APP_ADMIN_PASSWORD=admin_password
+REACT_APP_BASE_ADMIN=url_base_api

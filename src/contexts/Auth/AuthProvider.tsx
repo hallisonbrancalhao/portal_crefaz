@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
     const sendimage = async (data: string) => {
         const response = await api.sendimage(data);
-        return response.code;
+        return response.statusCode;
     }
 
     return (

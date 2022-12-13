@@ -60,7 +60,7 @@ export default function useBadgeHook() {
             setError(false);
             setLoading(false);
             setSuccess(true);
-            window.location.href = 'https://rodrigomartelli.humhub.com/s/espaco-de-boas-vindas/'
+            // window.location.href = 'https://rodrigomartelli.humhub.com/s/espaco-de-boas-vindas/'
         } else {
             console.log(res);
             setSuccess(false);

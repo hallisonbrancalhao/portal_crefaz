@@ -23,7 +23,7 @@ export default function useProfileHook() {
             return setImage(imgUpload);
         }
         if (!!profileImage) {
-            return setImage(profileImage);
+            return setImage(process.env.REACT_APP_BASE_ADMIN + user?.image);
         }
     }, [user])
 
@@ -54,6 +54,7 @@ export default function useProfileHook() {
         reader.onload = function () {
             setImage(`${reader.result}`);
             localStorage.setItem('profileImage', `${reader.result}`);
+            localStorage.setItem('profileImage64', `${reader.result}`);
         };
         reader.onerror = function (error) {
             console.log('Error: ', error);
