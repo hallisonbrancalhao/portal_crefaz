@@ -8,7 +8,7 @@ export default function useLoginHook() {
     const authAlready = useContext(AuthContext);
 
     useEffect(() => {
-        if (authAlready.user != null) {
+        if (authAlready.user !== null) {
             navigate('/apresentacao');
         }
     }, [authAlready.user, navigate])

@@ -11,7 +11,6 @@ export default function useBadgeHook() {
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
 
-
     const [formState, setFormState] = useState<BodyType>({
         id: user.id,
         fullName: user.fullName,
@@ -25,7 +24,7 @@ export default function useBadgeHook() {
             setFormState(JSON.parse(`${data}`));
         }
         if (!image) {
-            setImage(`${localStorage.getItem('profileImage')}`);
+            return setImage(`${localStorage.getItem('profileImage')}`);
         }
     }, [setFormState, image, auth])
 
@@ -40,6 +39,7 @@ export default function useBadgeHook() {
         reader.onerror = function (error) {
             console.log('Error: ', error);
         };
+        localStorage.setItem('profileImage', image);
     };
 
     const handleSend = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
@@ -58,9 +58,12 @@ export default function useBadgeHook() {
 
         if (res === 200) {
             setError(false);
+            setLoading(false);
+            setSuccess(true);
             window.location.href = 'https://rodrigomartelli.humhub.com/s/espaco-de-boas-vindas/'
         } else {
             console.log(res);
+            setSuccess(false);
             setLoading(false);
             setError(true);
         }

@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useContext, useState } from "react";
+import { FormEvent, useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/Auth/AuthContext";
 import { BodyType } from "../types/BodyType";
@@ -6,13 +6,26 @@ import { BodyType } from "../types/BodyType";
 export default function useProfileHook() {
     const auth = useContext(AuthContext);
     const [handleDisable, setHandleDisable] = useState(true);
-    const [image, setImage] = useState('');
     const userStr = localStorage.getItem('auth');
     const user = JSON.parse(`${userStr}`);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
+    const [image, setImage] = useState('');
+    const [errorImage, setErrorImage] = useState(false);
+
+
+    useEffect(() => {
+        const imgUpload = localStorage.getItem('profileImage');
+        const profileImage = user?.image;
+        if (!!imgUpload) {
+            return setImage(imgUpload);
+        }
+        if (!!profileImage) {
+            return setImage(profileImage);
+        }
+    }, [user])
 
     const [formState, setFormState] = useState<BodyType>({
         id: user.id,
@@ -45,7 +58,6 @@ export default function useProfileHook() {
         reader.onerror = function (error) {
             console.log('Error: ', error);
         };
-        localStorage.setItem('profileImage', image);
     };
 
     const handleAvancar = () => {
@@ -54,10 +66,14 @@ export default function useProfileHook() {
 
     const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (!image) {
+            return setErrorImage(true);
+        }
         setLoading(true);
         localStorage.setItem('auth', JSON.stringify(formState));
         const status = await auth.savedata(JSON.stringify(formState));
         if (status === 200) {
+            localStorage.setItem('profileImage', image);
             setHandleDisable(false);
             setSuccess(true);
             setError(false);
@@ -66,9 +82,10 @@ export default function useProfileHook() {
             setSuccess(false);
         }
         setLoading(false);
-    }, [formState, auth]);
+    }, [formState, auth, image]);
 
     return {
+        errorImage,
         error,
         success,
         loading,
