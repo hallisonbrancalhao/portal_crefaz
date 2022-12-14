@@ -37,7 +37,7 @@ const Login = () => {
               />
             </div>
             <p className="errorMessage">{errorMessage}</p>
-            <h5 className="links mt-4" onClick={() => { navigate('/esqueceu-sua-senha') }}>Esqueceu a senha?</h5>
+            {/* <h5 className="links mt-4" onClick={() => { navigate('/esqueceu-sua-senha') }}>Esqueceu a senha?</h5> */}
             <button className='px-5 py-2 btn btn-secondary mt-4' onClick={handleLogin}>
               <span>Acessar</span>
               <IconMenu width="0.6rem" />

@@ -76,6 +76,7 @@ export default function useProfileHook() {
         if (status === 200) {
             localStorage.setItem('profileImage', image);
             setHandleDisable(false);
+            setErrorImage(false);
             setSuccess(true);
             setError(false);
         } else {
