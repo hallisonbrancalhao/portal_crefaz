@@ -42,7 +42,6 @@ export default function useProfileHook() {
         phoneContact: user.phoneContact,
         email: user.email,
         statusCode: user.statusCode,
-        step: "integrado"
     })
 
     const convertImage = (e: FormEvent<HTMLInputElement>) => {

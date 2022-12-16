@@ -10,6 +10,7 @@ export default function useBadgeHook() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
+    const [errorImage, setErrorImage] = useState(false);
 
     const [formState, setFormState] = useState<BodyType>({
         id: user.id,
@@ -41,9 +42,13 @@ export default function useBadgeHook() {
 
     const handleSend = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setErrorImage(false);
         setLoading(true);
+        if (!image) {
+            setLoading(false);
+            return setErrorImage(true);
+        }
         const imageConvert = image.split(',', 2);
-
         const body = {
             nameBadge: formState.nameBadge,
             employeeId: formState.id,
@@ -51,6 +56,13 @@ export default function useBadgeHook() {
             file: `${imageConvert[1]}`,
         };
 
+        const stepSend = {
+            id: user.id,
+            step: "integrado"
+        }
+
+        console.log(stepSend);
+        await auth.savedata(JSON.stringify(stepSend));
         const res = await auth.sendimage(JSON.stringify(body));
 
         if (res === 200) {
@@ -66,9 +78,10 @@ export default function useBadgeHook() {
             setError(true);
         }
         setLoading(false);
-    }, [formState, auth, image]);
+    }, [image, formState.nameBadge, formState.id, user.id, auth]);
 
     return {
+        errorImage,
         error,
         success,
         loading,

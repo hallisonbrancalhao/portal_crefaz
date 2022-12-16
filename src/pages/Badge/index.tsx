@@ -11,6 +11,7 @@ import Alert from '@mui/material/Alert';
 
 const Badge = () => {
   const {
+    errorImage,
     error,
     success,
     loading,
@@ -136,12 +137,17 @@ const Badge = () => {
                         Salvar
                       </LoadingButton>
                     </div>
-                    {error && (
-                      <Alert variant="outlined" severity="error" className='mt-2'>
-                        Não foi possível salvar seus dados.
-                      </Alert>
-                    )}
                   </div>
+                  {error && (
+                    <Alert variant="outlined" severity="error" className='mt-2'>
+                      Não foi possível salvar seus dados.
+                    </Alert>
+                  )}
+                  {errorImage && (
+                    <Alert variant="outlined" severity="error" className='mt-2'>
+                      Por favor, selecione uma imagem adequada para o crachá.
+                    </Alert>
+                  )}
                   {success && (
                     <div className='col-12 mt-2'>
                       <Alert variant="outlined" severity="success" className='mt-2'>
