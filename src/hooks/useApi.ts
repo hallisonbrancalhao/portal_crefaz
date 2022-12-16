@@ -41,12 +41,17 @@ export const useApi = () => ({
     const response = await api.post('employee/authenticate', employee_login, employee_conf);
 
     if (response.status === 200) {
+
+      if (response.data.data[0].step === "integrado") {
+        localStorage.clear();
+        return window.location.href = 'https://social.eusoucrefaz.com.br/index.php?r=dashboard%2Fdashboard'
+      }
+
       response.data['bearer'] = bearer.data.data.token;
       return response.data;
     }
 
-    console.log(response);
-    return response.data;
+    return response;
   },
 
   signout: async () => {
@@ -78,7 +83,7 @@ export const useApi = () => ({
         "Authorization": `Bearer ${bearer}`,
       }
     }
-
+    console.log(data)
     var JSONdata = JSON.parse(data);
     const response = await api.post(`employee/document/${JSONdata.employeeId}`, JSONdata, put_conf)
     return response.data;

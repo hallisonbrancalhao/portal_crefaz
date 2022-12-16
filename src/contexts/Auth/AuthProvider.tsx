@@ -5,7 +5,10 @@ import { AuthContext } from "./AuthContext"
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const auth = useContext(AuthContext);
+
+    const [image64, setImage64] = useState("");
     const [user, setUser] = useState<User | null>(null);
+
     const api = useApi();
 
     useEffect(() => {
@@ -51,7 +54,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, signin, savedata, sendimage }}>
+        <AuthContext.Provider value={{ user, image64, signin, savedata, sendimage }}>
             {children}
         </AuthContext.Provider>
     );

@@ -6,14 +6,14 @@ export default function useBadgeHook() {
     const auth = useContext(AuthContext);
     const userStr = localStorage.getItem('auth');
     const user = JSON.parse(`${userStr}`);
-    const [image, setImage] = useState('');
+    const [image, setImage] = useState(auth.image64);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
 
     const [formState, setFormState] = useState<BodyType>({
         id: user.id,
-        fullName: user.fullName,
+        nameBadge: user.fullName,
         phone: user.phone,
         email: user.email,
     })
@@ -23,10 +23,7 @@ export default function useBadgeHook() {
         if (data) {
             setFormState(JSON.parse(`${data}`));
         }
-        if (!image) {
-            return setImage(`${localStorage.getItem('profileImage')}`);
-        }
-    }, [setFormState, image, auth])
+    }, [setFormState, auth])
 
     const convertImage = (e: FormEvent<HTMLInputElement>) => {
         const target = e.target as HTMLInputElement;
@@ -39,19 +36,19 @@ export default function useBadgeHook() {
         reader.onerror = function (error) {
             console.log('Error: ', error);
         };
-        localStorage.setItem('profileImage', image);
     };
+
 
     const handleSend = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
         const imageConvert = image.split(',', 2);
-        localStorage.setItem('profileImageSend', `${imageConvert[1]}`);
 
         const body = {
+            nameBadge: formState.nameBadge,
             employeeId: formState.id,
             description: "Crachá",
-            file: `${localStorage.getItem('profileImageSend')}`,
+            file: `${imageConvert[1]}`,
         };
 
         const res = await auth.sendimage(JSON.stringify(body));
@@ -60,7 +57,8 @@ export default function useBadgeHook() {
             setError(false);
             setLoading(false);
             setSuccess(true);
-            window.location.href = 'https://rodrigomartelli.humhub.com/s/espaco-de-boas-vindas/'
+            localStorage.clear();
+            window.location.href = 'https://social.eusoucrefaz.com.br/index.php?r=dashboard%2Fdashboard'
         } else {
             console.log(res);
             setSuccess(false);

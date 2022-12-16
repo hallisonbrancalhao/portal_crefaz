@@ -39,7 +39,9 @@ const Badge = () => {
             </div>
             <p className='fs-3 px-4 cracha-card_nome'>
               {formState.fullName
-                ? formState.fullName
+                ? formState.nameBadge ?
+                  formState.nameBadge :
+                  formState.fullName
                 : "Nome Sobrenome"
               }
             </p>
@@ -64,20 +66,20 @@ const Badge = () => {
                 onSubmit={handleSend}
               >
 
-                <label htmlFor='fullName' className='px-3 pt-4 pb-0'><p className="label-input">Nome<span>*</span></p></label>
+                <label htmlFor='nameBadge' className='px-3 pt-4 pb-0'><p className="label-input">Nome<span>*</span></p></label>
                 <input
                   required
                   type="text"
                   className='form-control input-data'
-                  value={formState.fullName}
+                  value={formState.nameBadge}
                   onChange={(event) =>
                     setFormState({
                       ...formState,
-                      fullName: event.currentTarget.value
+                      nameBadge: event.currentTarget.value
                     })
                   }
                   placeholder="Exemplo: João da Silva"
-                  name='fullName'
+                  name='nameBadge'
                 />
 
                 <label htmlFor='email' className='px-3 pt-2'><p className="label-input">E-mail<span>*</span></p></label>

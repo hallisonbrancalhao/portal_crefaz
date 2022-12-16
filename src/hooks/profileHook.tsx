@@ -15,9 +15,8 @@ export default function useProfileHook() {
     const [image, setImage] = useState('');
     const [errorImage, setErrorImage] = useState(false);
 
-
     useEffect(() => {
-        const imgUpload = localStorage.getItem('profileImage');
+        const imgUpload = auth.image64;
         const profileImage = user?.image;
         if (!!imgUpload) {
             return setImage(imgUpload);
@@ -25,7 +24,7 @@ export default function useProfileHook() {
         if (!!profileImage) {
             return setImage(process.env.REACT_APP_BASE_ADMIN + user?.image);
         }
-    }, [user])
+    }, [auth.image64, auth.user, user])
 
     const [formState, setFormState] = useState<BodyType>({
         id: user.id,
@@ -43,18 +42,17 @@ export default function useProfileHook() {
         phoneContact: user.phoneContact,
         email: user.email,
         statusCode: user.statusCode,
+        step: "integrado"
     })
 
     const convertImage = (e: FormEvent<HTMLInputElement>) => {
         const target = e.target as HTMLInputElement;
-
         let file: File = (target.files as FileList)[0];
         let reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function () {
             setImage(`${reader.result}`);
-            localStorage.setItem('profileImage', `${reader.result}`);
-            localStorage.setItem('profileImage64', `${reader.result}`);
+            auth.image64 = `${reader.result}`;
         };
         reader.onerror = function (error) {
             console.log('Error: ', error);
@@ -74,7 +72,6 @@ export default function useProfileHook() {
         localStorage.setItem('auth', JSON.stringify(formState));
         const status = await auth.savedata(JSON.stringify(formState));
         if (status === 200) {
-            localStorage.setItem('profileImage', image);
             setHandleDisable(false);
             setErrorImage(false);
             setSuccess(true);
