@@ -37,6 +37,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
             cpf: response.data.cpf,
             bearer: response.bearer
         };
+
         setUser(dataUser);
         localStorage.setItem('user', JSON.stringify(dataUser));
         localStorage.setItem('auth', JSON.stringify(response.data));
@@ -50,6 +51,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
     const sendimage = async (data: string) => {
         const response = await api.sendimage(data);
+
         return response.statusCode;
     }
 
