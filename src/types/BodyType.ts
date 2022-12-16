@@ -1,9 +1,11 @@
 export type BodyType = {
     id?: string;
     firstName?: string;
+    nameBadge?: string;
     lastName?: string;
     fullName?: string;
     birthDate?: string;
+    step?: string;
     sex?: string;
     cpf?: string;
     rg?: string;

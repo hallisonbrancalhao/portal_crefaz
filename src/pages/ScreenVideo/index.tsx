@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import "../index.css";
 
@@ -8,7 +8,6 @@ const Apresentacao = () => {
   const navigate = useNavigate();
 
   return (
-
     <div className="container">
       <div className="row text-center ">
         <div className="col-md-8 mb-5 offset-md-2 d-flex justify-content-center">
