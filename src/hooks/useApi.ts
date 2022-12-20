@@ -83,7 +83,6 @@ export const useApi = () => ({
         "Authorization": `Bearer ${bearer}`,
       }
     }
-    console.log(data)
     var JSONdata = JSON.parse(data);
     const response = await api.post(`employee/document/${JSONdata.employeeId}`, JSONdata, put_conf)
     return response.data;

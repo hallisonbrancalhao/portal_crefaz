@@ -86,6 +86,38 @@ const Profile = () => {
                 name='address'
               />
 
+              <label htmlFor='complement' className='px-3 pt-2'><p className="label-input">Complemento<span>*</span></p></label>
+              <input
+                required
+                type="text"
+                className='form-control input-data'
+                value={formState.complement}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    complement: event.currentTarget.value
+                  })
+                }
+                placeholder="Casa, apartamento"
+                name='complement'
+              />
+
+              <label htmlFor='postalCode' className='px-3 pt-2'><p className="label-input">CEP<span>*</span></p></label>
+              <input
+                required
+                type="text"
+                className='form-control input-data'
+                value={formState.postalCode}
+                onChange={(event) =>
+                  setFormState({
+                    ...formState,
+                    postalCode: event.currentTarget.value
+                  })
+                }
+                placeholder="00000-000"
+                name='postalCode'
+              />
+
               <label htmlFor='phone' className='px-3 pt-2'><p className="label-input">Telefone<span>*</span></p></label>
               <input
                 required
@@ -102,7 +134,7 @@ const Profile = () => {
                 name='phone'
               />
 
-              <label htmlFor='phoneContact' className='px-3 pt-2'><p className="label-input">Telefone para contato: (mãe, pai, esposa..)<span>*</span></p></label>
+              <label htmlFor='phoneContact' className='px-3 pt-2'><p className="label-input">Telefone de emergência: (mãe, pai, cônjuge..)<span>*</span></p></label>
               <input
                 required
                 type="phone"
