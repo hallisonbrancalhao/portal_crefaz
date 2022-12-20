@@ -61,7 +61,6 @@ export default function useBadgeHook() {
             step: "integrado"
         }
 
-        console.log(stepSend);
         await auth.savedata(JSON.stringify(stepSend));
         const res = await auth.sendimage(JSON.stringify(body));
 
